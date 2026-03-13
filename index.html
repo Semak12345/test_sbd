@@ -1,436 +1,1261 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TestSBD - Депозит и Вывод</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The AI Assembly — Council Dashboard</title>
+  <style>
+    /* ── Reset & Variables ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    :root {
+      --bg:       #09090f;
+      --panel:    #10101c;
+      --border:   #1e1e35;
+      --accent:   #7c3aed;
+      --accent2:  #a855f7;
+      --green:    #22c55e;
+      --red:      #ef4444;
+      --amber:    #f59e0b;
+      --cyan:     #06b6d4;
+      --text:     #e2e8f0;
+      --muted:    #64748b;
+      --radius:   12px;
+    }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-        h1 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 32px;
-        }
+    /* ── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
+    /* ── Layout ────────────────────────────────────────────────── */
+    .app { display: flex; flex-direction: column; min-height: 100vh; }
 
-        .status {
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    /* ── Topbar ────────────────────────────────────────────────── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .topbar-logo {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .topbar-title { font-size: 17px; font-weight: 700; letter-spacing: -.3px; }
+    .topbar-subtitle { font-size: 11px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
 
-        .status-item {
-            margin: 8px 0;
-            font-size: 14px;
-            color: #333;
-        }
+    .chain-badge {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px; color: var(--muted);
+    }
+    .chain-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
 
-        .status-item strong {
-            color: #667eea;
-        }
+    /* ── Buttons ───────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 9px 18px;
+      border: none; border-radius: 8px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #6d28d9);
+      color: #fff;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(124,58,237,.4);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+    .btn-green {
+      background: linear-gradient(135deg, #16a34a, var(--green));
+      color: #fff;
+    }
+    .btn-green:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(34,197,94,.35);
+    }
+    .btn-amber {
+      background: linear-gradient(135deg, #d97706, var(--amber));
+      color: #fff;
+    }
+    .btn-amber:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(245,158,11,.35);
+    }
+    .btn-cyan {
+      background: linear-gradient(135deg, #0891b2, var(--cyan));
+      color: #fff;
+    }
+    .btn-cyan:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(6,182,212,.35);
+    }
+    .btn-sm { padding: 6px 13px; font-size: 12px; }
 
-        .wallet-info {
-            background: #e8f4f8;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            word-break: break-all;
-            color: #555;
-        }
+    /* ── Wallet pill ───────────────────────────────────────────── */
+    .wallet-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 14px 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 20px; font-size: 12px; cursor: pointer;
+      background: var(--panel);
+    }
+    .wallet-pill:hover { border-color: var(--accent); }
+    .wallet-avatar {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--cyan));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+    }
+    .wallet-addr { color: var(--text); font-family: monospace; }
+    .wallet-balance { color: var(--muted); font-size: 11px; }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
+    /* ── Main content ──────────────────────────────────────────── */
+    .main { flex: 1; padding: 24px; max-width: 1400px; width: 100%; margin: 0 auto; }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
+    /* ── Section header ────────────────────────────────────────── */
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      color: var(--muted); text-transform: uppercase; margin-bottom: 12px;
+    }
 
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
+    /* ── Stats grid ────────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+    .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+    .stat-value {
+      font-size: 26px; font-weight: 800; letter-spacing: -.5px;
+      line-height: 1;
+    }
+    .stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+    .stat-card.green  .stat-value { color: var(--green); }
+    .stat-card.red    .stat-value { color: var(--red); }
+    .stat-card.amber  .stat-value { color: var(--amber); }
+    .stat-card.cyan   .stat-value { color: var(--cyan); }
+    .stat-card.purple .stat-value { color: var(--accent2); }
 
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
+    /* Progress bar for seats */
+    .seat-bar {
+      margin-top: 10px; height: 4px; border-radius: 2px;
+      background: var(--border); overflow: hidden;
+    }
+    .seat-bar-fill {
+      height: 100%; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+      transition: width .6s ease;
+    }
 
-        button {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: white;
-        }
+    /* Countdown */
+    .countdown {
+      display: flex; gap: 6px; align-items: baseline; margin-top: 2px;
+    }
+    .countdown-seg { text-align: center; }
+    .countdown-num { font-size: 22px; font-weight: 800; color: var(--amber); line-height: 1; }
+    .countdown-unit { font-size: 9px; color: var(--muted); }
+    .countdown-sep { font-size: 18px; font-weight: 800; color: var(--border); line-height: 1; }
 
-        .btn-deposit {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+    /* ── Two-column layout ─────────────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 28px; }
+    @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
 
-        .btn-deposit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
+    /* ── Panel card ────────────────────────────────────────────── */
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-title { font-size: 13px; font-weight: 700; }
+    .panel-body { padding: 0; }
 
-        .btn-withdraw {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
+    /* ── Bids table ────────────────────────────────────────────── */
+    .bids-list { list-style: none; }
+    .bid-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 18px;
+      border-bottom: 1px solid var(--border);
+      transition: background .1s;
+    }
+    .bid-row:last-child { border-bottom: none; }
+    .bid-row:hover { background: rgba(255,255,255,.02); }
+    .bid-rank {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; flex-shrink: 0;
+    }
+    .rank-1 { background: #f59e0b22; color: #f59e0b; border: 1px solid #f59e0b44; }
+    .rank-2 { background: #94a3b822; color: #94a3b8; border: 1px solid #94a3b844; }
+    .rank-3 { background: #b4521022; color: #b45210; border: 1px solid #b4521044; }
+    .rank-n { background: var(--border); color: var(--muted); }
 
-        .btn-withdraw:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
-        }
+    .bid-addr { font-family: monospace; font-size: 12px; flex: 1; color: var(--text); }
+    .bid-amount { font-weight: 700; color: var(--green); font-size: 13px; }
+    .bid-you { font-size: 10px; color: var(--accent2); background: rgba(168,85,247,.12); padding: 2px 6px; border-radius: 4px; }
 
-        .btn-connect {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            width: 100%;
-            margin-bottom: 20px;
-        }
+    .bids-empty { padding: 30px 18px; text-align: center; color: var(--muted); font-size: 13px; }
 
-        .btn-connect:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.4);
-        }
+    /* ── Events log ────────────────────────────────────────────── */
+    .events-list { list-style: none; max-height: 320px; overflow-y: auto; }
+    .event-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .event-row:last-child { border-bottom: none; }
+    .event-icon {
+      width: 26px; height: 26px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0; margin-top: 1px;
+    }
+    .ev-bid    { background: rgba(34,197,94,.15); }
+    .ev-heart  { background: rgba(124,58,237,.15); }
+    .ev-seat   { background: rgba(245,158,11,.15); }
+    .ev-start  { background: rgba(6,182,212,.15); }
+    .event-content { flex: 1; min-width: 0; }
+    .event-text { font-size: 12px; color: var(--text); line-height: 1.4; }
+    .event-text strong { color: var(--accent2); }
+    .event-time { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .events-empty { padding: 30px 18px; text-align: center; color: var(--muted); font-size: 13px; }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
+    /* ── Action bar ────────────────────────────────────────────── */
+    .action-bar {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px;
+      margin-bottom: 28px;
+    }
+    .action-group { display: flex; flex-direction: column; gap: 6px; }
+    .action-label { font-size: 11px; color: var(--muted); font-weight: 500; }
+    .action-input-row { display: flex; gap: 8px; align-items: center; }
+    .action-input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text);
+      padding: 9px 14px; font-size: 14px; width: 160px;
+      transition: border-color .15s;
+    }
+    .action-input:focus { outline: none; border-color: var(--accent); }
+    .action-input::placeholder { color: var(--muted); }
 
-        .message {
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 14px;
-            display: none;
-        }
+    .action-divider {
+      width: 1px; height: 52px; background: var(--border); align-self: flex-end;
+    }
 
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+    /* ── Seats grid ────────────────────────────────────────────── */
+    .seats-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .seats-grid {
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 18px;
+    }
+    .seat-dot {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; cursor: pointer;
+      transition: transform .1s, box-shadow .1s;
+      border: 1px solid transparent;
+    }
+    .seat-dot:hover { transform: scale(1.12); }
+    .seat-free     { background: var(--border); color: var(--muted); }
+    .seat-occupied { background: rgba(124,58,237,.25); color: var(--accent2); border-color: var(--accent); }
+    .seat-burned   { background: rgba(239,68,68,.12); color: var(--red); border-color: rgba(239,68,68,.3); }
+    .seat-yours    { background: linear-gradient(135deg, var(--accent), #6d28d9); color: #fff; box-shadow: 0 2px 12px rgba(124,58,237,.5); }
+    .seats-legend {
+      display: flex; gap: 18px; padding: 12px 18px;
+      border-top: 1px solid var(--border); flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
 
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+    /* ── Toast notifications ───────────────────────────────────── */
+    .toast-container {
+      position: fixed; bottom: 24px; right: 24px;
+      display: flex; flex-direction: column; gap: 8px; z-index: 9999;
+    }
+    .toast {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 14px 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(0,0,0,.5);
+      min-width: 280px; max-width: 380px;
+      animation: slideIn .2s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(40px); opacity: 0; }
+      to   { transform: translateX(0);    opacity: 1; }
+    }
+    .toast.success { border-left: 3px solid var(--green); }
+    .toast.error   { border-left: 3px solid var(--red); }
+    .toast.pending { border-left: 3px solid var(--amber); }
+    .toast.info    { border-left: 3px solid var(--cyan); }
+    .toast-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .toast-content { flex: 1; min-width: 0; }
+    .toast-title { font-size: 13px; font-weight: 700; }
+    .toast-msg { font-size: 12px; color: var(--muted); margin-top: 2px; word-break: break-all; }
+    .toast-close { cursor: pointer; color: var(--muted); font-size: 16px; flex-shrink: 0; }
 
-        .message.show {
-            display: block;
-        }
+    /* ── Spinner ───────────────────────────────────────────────── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin .7s linear infinite; flex-shrink: 0;
+    }
 
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
+    /* ── Connect overlay ───────────────────────────────────────── */
+    .connect-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.7);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; backdrop-filter: blur(4px);
+    }
+    .connect-modal {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 36px;
+      max-width: 400px; width: 90%;
+      text-align: center;
+    }
+    .connect-modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .connect-modal p { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
+    .connect-options { display: flex; flex-direction: column; gap: 12px; }
+    .connect-opt {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px; cursor: pointer;
+      transition: all .15s; text-align: left;
+    }
+    .connect-opt:hover { border-color: var(--accent); background: rgba(124,58,237,.07); }
+    .connect-opt-icon { font-size: 24px; flex-shrink: 0; }
+    .connect-opt-name { font-weight: 700; font-size: 14px; }
+    .connect-opt-desc { font-size: 11px; color: var(--muted); }
+    .connect-close {
+      margin-top: 20px; cursor: pointer; color: var(--muted); font-size: 13px;
+      background: none; border: none; text-decoration: underline;
+    }
+    .connect-close:hover { color: var(--text); }
 
-        .loading.show {
-            display: block;
-        }
+    /* ── Tx hash link ──────────────────────────────────────────── */
+    .tx-link { color: var(--cyan); text-decoration: none; font-family: monospace; font-size: 11px; }
+    .tx-link:hover { text-decoration: underline; }
 
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
+    /* ── Auto-refresh indicator ────────────────────────────────── */
+    .refresh-bar {
+      height: 2px; background: var(--border); border-radius: 1px;
+      overflow: hidden; margin-top: 4px;
+    }
+    .refresh-fill {
+      height: 100%; background: var(--accent2); border-radius: 1px;
+      animation: refill 30s linear infinite;
+    }
+    @keyframes refill { from { width: 100%; } to { width: 0%; } }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .admin-badge {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: inline-block;
-            margin-top: 10px;
-        }
-    </style>
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .topbar { padding: 12px 16px; }
+      .main { padding: 16px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .action-bar { flex-direction: column; align-items: stretch; }
+      .action-divider { display: none; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>💎 TestSBD</h1>
-        <p class="subtitle">Депозит и Вывод средств</p>
 
-        <button id="connectBtn" class="btn-connect">🔗 Подключить MetaMask</button>
-
-        <div class="wallet-info" id="walletInfo" style="display: none;">
-            <strong>Кошелёк:</strong> <span id="walletAddress"></span>
-            <div id="adminBadge"></div>
+<!-- ═══════════ CONNECT WALLET OVERLAY ═══════════ -->
+<div class="connect-overlay" id="connectOverlay">
+  <div class="connect-modal">
+    <div style="font-size: 40px; margin-bottom: 12px;">⚖️</div>
+    <h2>The AI Assembly</h2>
+    <p>Connect your wallet to interact with the Council Chamber on Abstract network.</p>
+    <div class="connect-options">
+      <div class="connect-opt" onclick="connectAGW()">
+        <span class="connect-opt-icon">🔮</span>
+        <div>
+          <div class="connect-opt-name">Abstract Global Wallet</div>
+          <div class="connect-opt-desc">Native smart contract wallet on Abstract — sponsored gas</div>
         </div>
-
-        <div class="status" id="statusBox" style="display: none;">
-            <div class="status-item">
-                <strong>Ваш баланс в контракте:</strong> <span id="userBalance">0</span> ETH
-            </div>
-            <div class="status-item">
-                <strong>Баланс контракта:</strong> <span id="contractBalance">0</span> ETH
-            </div>
+      </div>
+      <div class="connect-opt" onclick="connectMetaMask()">
+        <span class="connect-opt-icon">🦊</span>
+        <div>
+          <div class="connect-opt-name">MetaMask / Injected</div>
+          <div class="connect-opt-desc">Any browser wallet (MetaMask, Rabby, etc.)</div>
         </div>
+      </div>
+    </div>
+    <button class="connect-close" onclick="closeOverlay()">Skip — view only mode</button>
+  </div>
+</div>
 
-        <div id="mainContent" style="display: none;">
-            <div class="input-group">
-                <label for="depositAmount">💰 Сумма для депозита (ETH)</label>
-                <input type="number" id="depositAmount" placeholder="0.01" step="0.001" min="0">
-            </div>
+<!-- ═══════════ APP ═══════════ -->
+<div class="app">
 
-            <div class="input-group">
-                <label for="withdrawAmount">💸 Сумма для вывода (ETH)</label>
-                <input type="number" id="withdrawAmount" placeholder="0.01" step="0.001" min="0">
-            </div>
-
-            <div class="button-group">
-                <button class="btn-deposit" onclick="deposit()">📥 Депозит</button>
-                <button class="btn-withdraw" onclick="withdraw()">📤 Вывод</button>
-            </div>
-
-            <button class="btn-connect" onclick="updateBalances()" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                🔄 Обновить балансы
-            </button>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">⚖️</div>
+      <div>
+        <div class="topbar-title">The AI Assembly</div>
+        <div class="topbar-subtitle">Council Chamber · Abstract Mainnet</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="chain-badge">
+        <span class="chain-dot" id="chainDot"></span>
+        <span id="chainName">Abstract</span>
+      </div>
+      <!-- Shown when NOT connected -->
+      <button class="btn btn-primary" id="connectBtn" onclick="showConnectOverlay()">
+        🔗 Connect Wallet
+      </button>
+      <!-- Shown when connected -->
+      <div class="wallet-pill" id="walletPill" style="display:none" onclick="showConnectOverlay()">
+        <div class="wallet-avatar">👤</div>
+        <div>
+          <div class="wallet-addr" id="walletAddr">0x…</div>
+          <div class="wallet-balance" id="walletBal">0.000 ETH</div>
         </div>
+      </div>
+      <button class="btn btn-outline btn-sm" id="refreshBtn" onclick="refreshAll()" title="Refresh data">↺</button>
+    </div>
+  </header>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p style="margin-top: 10px; color: #667eea;">Обработка транзакции...</p>
-        </div>
+  <!-- MAIN -->
+  <main class="main">
 
-        <div class="message" id="message"></div>
+    <!-- auto-refresh bar -->
+    <div class="refresh-bar" id="refreshBar" style="margin-bottom:20px;">
+      <div class="refresh-fill" id="refreshFill"></div>
     </div>
 
-    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
-    <script>
-        // ВАЖНО: Замените этот адрес на адрес вашего задеплоенного контракта!
-        const CONTRACT_ADDRESS = "0xВАШ_АДРЕС_КОНТРАКТА_ЗДЕСЬ";
-        
-        // ABI контракта (минимальный набор функций)
-        const CONTRACT_ABI = [
-            "function deposit() public payable",
-            "function withdraw(uint256 _amount) public",
-            "function getMyBalance() public view returns (uint256)",
-            "function getContractBalance() public view returns (uint256)",
-            "function ADMIN() public view returns (address)",
-            "event Deposit(address indexed user, uint256 amount)",
-            "event Withdraw(address indexed user, uint256 amount)"
-        ];
+    <!-- ── STATS ── -->
+    <div class="section-label">Council Overview</div>
+    <div class="stats-grid">
 
-        const ADMIN_ADDRESS = "0xC132Eb2430236ce43E7398caBccd449244586555";
+      <div class="stat-card purple">
+        <div class="stat-label">Seats Occupied</div>
+        <div class="stat-value" id="statOccupied">—</div>
+        <div class="stat-sub">of <span id="statTotal">—</span> total seats</div>
+        <div class="seat-bar"><div class="seat-bar-fill" id="seatBarFill" style="width:0%"></div></div>
+      </div>
 
-        let provider;
-        let signer;
-        let contract;
-        let userAddress;
+      <div class="stat-card red">
+        <div class="stat-label">Burned / Expired</div>
+        <div class="stat-value" id="statBurned">—</div>
+        <div class="stat-sub">seats lost to inactivity</div>
+      </div>
 
-        // Подключение к MetaMask
-        async function connectWallet() {
-            try {
-                if (typeof window.ethereum === 'undefined') {
-                    showMessage('Пожалуйста, установите MetaMask!', 'error');
-                    return;
-                }
+      <div class="stat-card cyan">
+        <div class="stat-label">Auction #</div>
+        <div class="stat-value" id="statAuctionId">—</div>
+        <div class="stat-sub" id="statAuctionStatus">Loading…</div>
+      </div>
 
-                // Запрос подключения к MetaMask
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                
-                provider = new ethers.providers.Web3Provider(window.ethereum);
-                signer = provider.getSigner();
-                userAddress = await signer.getAddress();
-                
-                // Подключение к контракту
-                contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+      <div class="stat-card amber">
+        <div class="stat-label">Participants</div>
+        <div class="stat-value" id="statParticipants">—</div>
+        <div class="stat-sub">bidders in current auction</div>
+      </div>
 
-                // Проверка сети (Abstract Chain)
-                const network = await provider.getNetwork();
-                console.log('Подключена сеть:', network);
+      <div class="stat-card green">
+        <div class="stat-label">Top Bid</div>
+        <div class="stat-value" id="statTopBid">—</div>
+        <div class="stat-sub" id="statTopBidder">no bids yet</div>
+      </div>
 
-                // Обновление UI
-                document.getElementById('connectBtn').style.display = 'none';
-                document.getElementById('walletInfo').style.display = 'block';
-                document.getElementById('statusBox').style.display = 'block';
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('walletAddress').textContent = 
-                    userAddress.substring(0, 6) + '...' + userAddress.substring(38);
+      <div class="stat-card amber">
+        <div class="stat-label">Time Remaining</div>
+        <div class="countdown" id="countdown">
+          <div class="countdown-seg"><div class="countdown-num" id="cdH">—</div><div class="countdown-unit">HRS</div></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-seg"><div class="countdown-num" id="cdM">—</div><div class="countdown-unit">MIN</div></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-seg"><div class="countdown-num" id="cdS">—</div><div class="countdown-unit">SEC</div></div>
+        </div>
+        <div class="stat-sub" id="auctionEndLabel">Auction end time</div>
+      </div>
 
-                // Проверка, является ли пользователь админом
-                if (userAddress.toLowerCase() === ADMIN_ADDRESS.toLowerCase()) {
-                    document.getElementById('adminBadge').innerHTML = 
-                        '<span class="admin-badge">👑 Администратор</span>';
-                }
+    </div>
 
-                await updateBalances();
-                showMessage('Кошелёк успешно подключен!', 'success');
-            } catch (error) {
-                console.error('Ошибка подключения:', error);
-                showMessage('Ошибка подключения: ' + error.message, 'error');
-            }
-        }
+    <!-- ── SEATS GRID ── -->
+    <div class="seats-panel">
+      <div class="panel-header">
+        <span class="panel-title">Seat Map</span>
+        <span style="font-size:11px; color:var(--muted)" id="seatMapHint">Hover for holder</span>
+      </div>
+      <div class="seats-grid" id="seatsGrid">
+        <!-- injected by JS -->
+      </div>
+      <div class="seats-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div>Free</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Occupied</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Burned</div>
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,var(--accent),#6d28d9)"></div>Yours</div>
+      </div>
+    </div>
 
-        // Обновление балансов
-        async function updateBalances() {
-            try {
-                const userBalance = await contract.getMyBalance();
-                const contractBalance = await contract.getContractBalance();
+    <!-- ── BIDS + EVENTS ── -->
+    <div class="two-col">
 
-                document.getElementById('userBalance').textContent = 
-                    ethers.utils.formatEther(userBalance);
-                document.getElementById('contractBalance').textContent = 
-                    ethers.utils.formatEther(contractBalance);
-            } catch (error) {
-                console.error('Ошибка обновления балансов:', error);
-            }
-        }
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">🏆 Current Auction Bids</span>
+          <span class="btn btn-outline btn-sm" onclick="loadBids()" style="cursor:pointer">↺</span>
+        </div>
+        <div class="panel-body">
+          <ul class="bids-list" id="bidsList">
+            <li class="bids-empty" id="bidsEmpty">Connect wallet to load bids</li>
+          </ul>
+        </div>
+      </div>
 
-        // Депозит
-        async function deposit() {
-            const amount = document.getElementById('depositAmount').value;
-            
-            if (!amount || amount <= 0) {
-                showMessage('Введите корректную сумму для депозита', 'error');
-                return;
-            }
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">📡 Live Events</span>
+          <span id="eventCount" style="font-size:11px;color:var(--muted)">0 events</span>
+        </div>
+        <div class="panel-body">
+          <ul class="events-list" id="eventsList">
+            <li class="events-empty" id="eventsEmpty">Waiting for events…</li>
+          </ul>
+        </div>
+      </div>
 
-            try {
-                showLoading(true);
-                const tx = await contract.deposit({
-                    value: ethers.utils.parseEther(amount)
-                });
-                
-                showMessage('Транзакция отправлена. Ожидание подтверждения...', 'success');
-                await tx.wait();
-                
-                showLoading(false);
-                showMessage(`Успешно внесено ${amount} ETH!`, 'success');
-                document.getElementById('depositAmount').value = '';
-                await updateBalances();
-            } catch (error) {
-                showLoading(false);
-                console.error('Ошибка депозита:', error);
-                showMessage('Ошибка депозита: ' + error.message, 'error');
-            }
-        }
+    </div>
 
-        // Вывод
-        async function withdraw() {
-            const amount = document.getElementById('withdrawAmount').value;
-            
-            if (!amount || amount <= 0) {
-                showMessage('Введите корректную сумму для вывода', 'error');
-                return;
-            }
+    <!-- ── ACTION BAR ── -->
+    <div class="section-label">Interact with Contract</div>
+    <div class="action-bar">
 
-            try {
-                showLoading(true);
-                const tx = await contract.withdraw(ethers.utils.parseEther(amount));
-                
-                showMessage('Транзакция отправлена. Ожидание подтверждения...', 'success');
-                await tx.wait();
-                
-                showLoading(false);
-                showMessage(`Успешно выведено ${amount} ETH!`, 'success');
-                document.getElementById('withdrawAmount').value = '';
-                await updateBalances();
-            } catch (error) {
-                showLoading(false);
-                console.error('Ошибка вывода:', error);
-                showMessage('Ошибка вывода: ' + error.message, 'error');
-            }
-        }
+      <!-- Heartbeat -->
+      <div class="action-group">
+        <div class="action-label">Heartbeat — prove your membership</div>
+        <div class="action-input-row">
+          <button class="btn btn-primary" id="heartbeatBtn" onclick="sendHeartbeat()" disabled>
+            💓 Send Heartbeat
+          </button>
+          <span style="font-size:11px;color:var(--muted)" id="heartbeatFeeLabel">Fee: loading…</span>
+        </div>
+      </div>
 
-        // Показать сообщение
-        function showMessage(text, type) {
-            const messageBox = document.getElementById('message');
-            messageBox.textContent = text;
-            messageBox.className = 'message ' + type + ' show';
-            
-            setTimeout(() => {
-                messageBox.classList.remove('show');
-            }, 5000);
-        }
+      <div class="action-divider"></div>
 
-        // Показать/скрыть загрузку
-        function showLoading(show) {
-            document.getElementById('loading').className = show ? 'loading show' : 'loading';
-        }
+      <!-- Bid -->
+      <div class="action-group">
+        <div class="action-label">Place Bid — participate in current auction</div>
+        <div class="action-input-row">
+          <input class="action-input" type="number" id="bidAmount" placeholder="0.01 ETH" step="0.001" min="0" />
+          <button class="btn btn-green" id="bidBtn" onclick="placeBid()" disabled>
+            💰 Place Bid
+          </button>
+        </div>
+        <span style="font-size:11px;color:var(--muted)" id="minBidLabel">Min increment: loading…</span>
+      </div>
 
-        // Обработчик кнопки подключения
-        document.getElementById('connectBtn').addEventListener('click', connectWallet);
+      <div class="action-divider"></div>
 
-        // Автоматическое подключение при смене аккаунта
-        if (window.ethereum) {
-            window.ethereum.on('accountsChanged', function (accounts) {
-                if (accounts.length > 0) {
-                    window.location.reload();
-                }
-            });
+      <!-- My seat status -->
+      <div class="action-group">
+        <div class="action-label">My Seat Status</div>
+        <div style="display:flex;flex-direction:column;gap:4px;" id="mySeatInfo">
+          <span style="font-size:13px;color:var(--muted)">—</span>
+        </div>
+      </div>
 
-            window.ethereum.on('chainChanged', function () {
-                window.location.reload();
-            });
-        }
-    </script>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════ TOAST CONTAINER ═══════════ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+<script>
+/* ────────────────────────────────────────────────────────────────────────
+   CONFIG — Update CONTRACT_ADDRESS once deployed / confirmed on abscan.org
+   ─────────────────────────────────────────────────────────────────────── */
+const CONFIG = {
+  // ⚠️  Replace with the verified AI Assembly Council contract address from abscan.org
+  CONTRACT_ADDRESS: "0x0000000000000000000000000000000000000000",
+
+  // Abstract Mainnet
+  CHAIN_ID:  2741,
+  CHAIN_NAME: "Abstract",
+  RPC_URL:   "https://api.mainnet.abs.xyz",
+  EXPLORER:  "https://abscan.org",
+  SYMBOL:    "ETH",
+
+  // How often to auto-refresh (ms)
+  REFRESH_INTERVAL: 30_000,
+};
+
+/* ── Contract ABI (based on The AI Assembly constitution & typical auction patterns)
+      Update specific function signatures if the actual contract differs.         */
+const ABI = [
+  // ── View: Council ──────────────────────────────────────────────
+  "function totalSeats() view returns (uint256)",
+  "function seatsOccupied() view returns (uint256)",
+  "function seatsBurned() view returns (uint256)",
+  "function getSeatHolder(uint256 seatId) view returns (address holder, uint256 expiry, bool active)",
+  "function hasSeat(address member) view returns (bool)",
+  "function getMySeat(address member) view returns (uint256 seatId, uint256 expiry)",
+
+  // ── View: Auction ───────────────────────────────────────────────
+  "function currentAuctionId() view returns (uint256)",
+  "function getAuction(uint256 id) view returns (uint256 endTime, uint256 participantCount, uint256 topBid, address topBidder, bool active, uint256 seatsForAuction)",
+  "function getBids(uint256 auctionId) view returns (address[] bidders, uint256[] amounts)",
+  "function minBidIncrement() view returns (uint256)",
+
+  // ── View: Heartbeat ─────────────────────────────────────────────
+  "function heartbeatFee() view returns (uint256)",
+  "function lastHeartbeat(address member) view returns (uint256 timestamp)",
+  "function heartbeatInterval() view returns (uint256)",
+
+  // ── Write ───────────────────────────────────────────────────────
+  "function heartbeat() payable",
+  "function bid(uint256 auctionId) payable",
+
+  // ── Events ──────────────────────────────────────────────────────
+  "event NewBid(address indexed bidder, uint256 indexed auctionId, uint256 amount)",
+  "event HeartbeatSent(address indexed member, uint256 indexed timestamp)",
+  "event AuctionStarted(uint256 indexed auctionId, uint256 endTime, uint256 seats)",
+  "event SeatAwarded(address indexed winner, uint256 indexed seatId, uint256 indexed auctionId)",
+  "event SeatBurned(address indexed holder, uint256 indexed seatId)",
+];
+
+/* ────────────────────────────────────────────────────────────────────────
+   STATE
+   ─────────────────────────────────────────────────────────────────────── */
+let provider, signer, contract, userAddress;
+let auctionEndTime = 0;
+let countdownTimer = null;
+let refreshTimer   = null;
+let eventLog       = [];
+let simMode        = false; // true when contract is placeholder (0x000...)
+
+/* ────────────────────────────────────────────────────────────────────────
+   WALLET CONNECTION
+   ─────────────────────────────────────────────────────────────────────── */
+function showConnectOverlay() {
+  document.getElementById('connectOverlay').style.display = 'flex';
+}
+function closeOverlay() {
+  document.getElementById('connectOverlay').style.display = 'none';
+  // enter sim/demo mode
+  simMode = true;
+  loadDemoData();
+}
+
+async function connectAGW() {
+  // AGW uses the same injected window.ethereum interface on Abstract.
+  // Users must have Abstract Global Wallet extension/app ready.
+  // Falls back to standard injected provider on Abstract chain.
+  await connectInjected('AGW');
+}
+
+async function connectMetaMask() {
+  await connectInjected('MetaMask');
+}
+
+async function connectInjected(label) {
+  document.getElementById('connectOverlay').style.display = 'none';
+  if (typeof window.ethereum === 'undefined') {
+    toast('error', 'No wallet found', `Please install ${label} or another browser wallet.`);
+    return;
+  }
+  try {
+    toast('pending', 'Connecting…', `Waiting for ${label} approval`);
+
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    // Switch to Abstract mainnet if needed
+    await ensureAbstractNetwork();
+
+    signer = provider.getSigner();
+    userAddress = await signer.getAddress();
+
+    if (CONFIG.CONTRACT_ADDRESS !== '0x0000000000000000000000000000000000000000') {
+      contract = new ethers.Contract(CONFIG.CONTRACT_ADDRESS, ABI, signer);
+    } else {
+      simMode = true;
+      toast('info', 'Demo Mode', 'Contract address not set — showing simulated data.');
+    }
+
+    updateWalletUI();
+    await refreshAll();
+
+    if (contract) subscribeEvents();
+
+    toast('success', 'Connected!', shortAddr(userAddress));
+  } catch (err) {
+    toast('error', 'Connection failed', err.message);
+  }
+}
+
+async function ensureAbstractNetwork() {
+  const net = await provider.getNetwork();
+  if (net.chainId === CONFIG.CHAIN_ID) return;
+
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: ethers.utils.hexValue(CONFIG.CHAIN_ID) }],
+    });
+  } catch (switchErr) {
+    if (switchErr.code === 4902) {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId:   ethers.utils.hexValue(CONFIG.CHAIN_ID),
+          chainName: CONFIG.CHAIN_NAME,
+          nativeCurrency: { name: 'Ether', symbol: CONFIG.SYMBOL, decimals: 18 },
+          rpcUrls:        [CONFIG.RPC_URL],
+          blockExplorerUrls: [CONFIG.EXPLORER],
+        }],
+      });
+    } else {
+      throw switchErr;
+    }
+  }
+  provider = new ethers.providers.Web3Provider(window.ethereum);
+}
+
+function updateWalletUI() {
+  document.getElementById('connectBtn').style.display = 'none';
+  document.getElementById('walletPill').style.display = 'flex';
+  document.getElementById('walletAddr').textContent = shortAddr(userAddress);
+
+  if (provider) {
+    provider.getBalance(userAddress).then(b => {
+      document.getElementById('walletBal').textContent =
+        parseFloat(ethers.utils.formatEther(b)).toFixed(4) + ' ETH';
+    }).catch(() => {});
+  }
+
+  document.getElementById('heartbeatBtn').disabled = false;
+  document.getElementById('bidBtn').disabled = false;
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   DATA LOADING
+   ─────────────────────────────────────────────────────────────────────── */
+async function refreshAll() {
+  resetRefreshBar();
+  if (simMode) { loadDemoData(); return; }
+  if (!contract) return;
+
+  try {
+    await Promise.all([
+      loadCouncilStats(),
+      loadAuctionStats(),
+      loadBids(),
+      loadMyStatus(),
+    ]);
+  } catch (err) {
+    console.warn('Refresh error:', err);
+    // If contract not deployed yet, fall to demo
+    if (err.code === 'CALL_EXCEPTION' || err.code === -32000) {
+      simMode = true;
+      loadDemoData();
+    }
+  }
+}
+
+async function loadCouncilStats() {
+  const [total, occupied, burned] = await Promise.all([
+    contract.totalSeats(),
+    contract.seatsOccupied(),
+    contract.seatsBurned(),
+  ]);
+  const t = total.toNumber();
+  const o = occupied.toNumber();
+  const b = burned.toNumber();
+
+  document.getElementById('statTotal').textContent    = t;
+  document.getElementById('statOccupied').textContent = o;
+  document.getElementById('statBurned').textContent   = b;
+  document.getElementById('seatBarFill').style.width  = t > 0 ? (o / t * 100) + '%' : '0%';
+
+  buildSeatMap(t, o, b);
+}
+
+async function loadAuctionStats() {
+  const auctionId = await contract.currentAuctionId();
+  const id = auctionId.toNumber();
+  document.getElementById('statAuctionId').textContent = '#' + id;
+
+  const info = await contract.getAuction(id);
+  const endTime = info.endTime.toNumber();
+  const participants = info.participantCount.toNumber();
+  const topBid = info.topBid;
+  const active = info.active;
+
+  auctionEndTime = endTime;
+  document.getElementById('statParticipants').textContent = participants;
+
+  if (topBid.gt(0)) {
+    document.getElementById('statTopBid').textContent =
+      parseFloat(ethers.utils.formatEther(topBid)).toFixed(4) + ' ETH';
+    document.getElementById('statTopBidder').textContent =
+      'leader: ' + shortAddr(info.topBidder);
+  } else {
+    document.getElementById('statTopBid').textContent = '0 ETH';
+    document.getElementById('statTopBidder').textContent = 'no bids yet';
+  }
+
+  document.getElementById('statAuctionStatus').textContent = active ? '🟢 Active' : '🔴 Ended';
+  document.getElementById('auctionEndLabel').textContent =
+    'ends ' + new Date(endTime * 1000).toLocaleString();
+
+  startCountdown();
+
+  // heartbeat fee & min bid
+  const [fee, minBid] = await Promise.all([
+    contract.heartbeatFee(),
+    contract.minBidIncrement(),
+  ]);
+  document.getElementById('heartbeatFeeLabel').textContent =
+    'Fee: ' + parseFloat(ethers.utils.formatEther(fee)).toFixed(4) + ' ETH';
+  document.getElementById('minBidLabel').textContent =
+    'Min increment: ' + parseFloat(ethers.utils.formatEther(minBid)).toFixed(4) + ' ETH';
+}
+
+async function loadBids() {
+  const auctionId = await contract.currentAuctionId();
+  const { bidders, amounts } = await contract.getBids(auctionId.toNumber());
+
+  renderBids(
+    bidders,
+    amounts.map(a => ethers.utils.formatEther(a))
+  );
+}
+
+async function loadMyStatus() {
+  if (!userAddress) return;
+  const hasSeat = await contract.hasSeat(userAddress);
+  const mySeatDiv = document.getElementById('mySeatInfo');
+  if (hasSeat) {
+    const { seatId, expiry } = await contract.getMySeat(userAddress);
+    const expDate = new Date(expiry.toNumber() * 1000).toLocaleDateString();
+    mySeatDiv.innerHTML = `
+      <span style="color:var(--green);font-weight:700">✅ You hold Seat #${seatId}</span>
+      <span style="font-size:11px;color:var(--muted)">Expires: ${expDate}</span>
+    `;
+  } else {
+    mySeatDiv.innerHTML = `<span style="color:var(--muted);font-size:13px">No seat — bid to join the Council</span>`;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   WRITE FUNCTIONS
+   ─────────────────────────────────────────────────────────────────────── */
+async function sendHeartbeat() {
+  if (!contract || simMode) {
+    toast('info', 'Demo Mode', 'Connect wallet with live contract to send heartbeat.');
+    return;
+  }
+  try {
+    setBtnLoading('heartbeatBtn', true);
+    const fee = await contract.heartbeatFee();
+    toast('pending', 'Sending heartbeat…', 'Please confirm in wallet');
+
+    const tx = await contract.heartbeat({ value: fee });
+    toast('pending', 'Transaction submitted', txLink(tx.hash));
+
+    await tx.wait();
+    toast('success', 'Heartbeat confirmed!', 'Membership renewed 💓');
+    pushEvent('heart', `💓 You sent a heartbeat`, 'just now');
+    await refreshAll();
+  } catch (err) {
+    toast('error', 'Heartbeat failed', err.reason || err.message);
+  } finally {
+    setBtnLoading('heartbeatBtn', false);
+  }
+}
+
+async function placeBid() {
+  if (!contract || simMode) {
+    toast('info', 'Demo Mode', 'Connect wallet with live contract to place bids.');
+    return;
+  }
+  const amountStr = document.getElementById('bidAmount').value.trim();
+  if (!amountStr || isNaN(parseFloat(amountStr)) || parseFloat(amountStr) <= 0) {
+    toast('error', 'Invalid amount', 'Enter a valid ETH bid amount.');
+    return;
+  }
+  try {
+    setBtnLoading('bidBtn', true);
+    const auctionId = await contract.currentAuctionId();
+    const value = ethers.utils.parseEther(amountStr);
+    toast('pending', 'Placing bid…', 'Please confirm in wallet');
+
+    const tx = await contract.bid(auctionId, { value });
+    toast('pending', 'Bid submitted', txLink(tx.hash));
+
+    await tx.wait();
+    toast('success', 'Bid placed!', `${amountStr} ETH on Auction #${auctionId}`);
+    pushEvent('bid', `💰 You bid <strong>${amountStr} ETH</strong> on Auction #${auctionId}`, 'just now');
+    document.getElementById('bidAmount').value = '';
+    await refreshAll();
+  } catch (err) {
+    toast('error', 'Bid failed', err.reason || err.message);
+  } finally {
+    setBtnLoading('bidBtn', false);
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   EVENT SUBSCRIPTION
+   ─────────────────────────────────────────────────────────────────────── */
+function subscribeEvents() {
+  if (!contract) return;
+
+  contract.on('NewBid', (bidder, auctionId, amount) => {
+    const eth = parseFloat(ethers.utils.formatEther(amount)).toFixed(4);
+    pushEvent('bid', `💰 <strong>${shortAddr(bidder)}</strong> bid <strong>${eth} ETH</strong> on Auction #${auctionId}`, 'live');
+    loadAuctionStats();
+    loadBids();
+  });
+
+  contract.on('HeartbeatSent', (member) => {
+    pushEvent('heart', `💓 <strong>${shortAddr(member)}</strong> sent heartbeat`, 'live');
+  });
+
+  contract.on('AuctionStarted', (id, endTime, seats) => {
+    pushEvent('start', `🔔 Auction <strong>#${id}</strong> started for <strong>${seats}</strong> seat(s)`, 'live');
+    loadAuctionStats();
+  });
+
+  contract.on('SeatAwarded', (winner, seatId, auctionId) => {
+    pushEvent('seat', `🏆 <strong>${shortAddr(winner)}</strong> won Seat #${seatId} (Auction #${auctionId})`, 'live');
+    loadCouncilStats();
+  });
+
+  contract.on('SeatBurned', (holder, seatId) => {
+    pushEvent('seat', `🔥 Seat #${seatId} of <strong>${shortAddr(holder)}</strong> was burned`, 'live');
+    loadCouncilStats();
+  });
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   DEMO / SIMULATION DATA
+   (used when contract address is placeholder or user skips connect)
+   ─────────────────────────────────────────────────────────────────────── */
+function loadDemoData() {
+  const total = 21, occupied = 14, burned = 2;
+  document.getElementById('statTotal').textContent    = total;
+  document.getElementById('statOccupied').textContent = occupied;
+  document.getElementById('statBurned').textContent   = burned;
+  document.getElementById('seatBarFill').style.width  = (occupied / total * 100) + '%';
+  document.getElementById('statAuctionId').textContent = '#7';
+  document.getElementById('statAuctionStatus').textContent = '🟢 Active (demo)';
+  document.getElementById('statParticipants').textContent = '5';
+  document.getElementById('statTopBid').textContent = '0.4200 ETH';
+  document.getElementById('statTopBidder').textContent = 'leader: 0x1a2b…3c4d';
+  document.getElementById('heartbeatFeeLabel').textContent = 'Fee: 0.0010 ETH';
+  document.getElementById('minBidLabel').textContent = 'Min increment: 0.0100 ETH';
+  document.getElementById('auctionEndLabel').textContent = 'Demo — set contract address to go live';
+
+  auctionEndTime = Math.floor(Date.now() / 1000) + 3 * 3600 + 27 * 60 + 14;
+  startCountdown();
+
+  buildSeatMap(total, occupied, burned);
+
+  renderBids(
+    ['0x1a2b3c4d5e6f7a8b9c0d', '0xabcdef1234567890abcd', '0x9999888877776666aaaa', '0xdeadbeef01020304dead', '0xfeedface0a0b0c0d0e0f'],
+    ['0.4200', '0.3800', '0.2500', '0.1500', '0.0500']
+  );
+
+  pushEvent('start', '🔔 Auction <strong>#7</strong> started for <strong>1</strong> seat', '2h ago');
+  pushEvent('bid', '💰 <strong>0x1a2b…3c4d</strong> bid <strong>0.42 ETH</strong>', '1h ago');
+  pushEvent('heart', '💓 <strong>0xabcd…ef12</strong> sent heartbeat', '45m ago');
+  pushEvent('bid', '💰 <strong>0xabcd…ef12</strong> bid <strong>0.38 ETH</strong>', '30m ago');
+  pushEvent('seat', '🏆 <strong>0xfeed…face</strong> won Seat #14 (Auction #6)', '5h ago');
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   RENDERING HELPERS
+   ─────────────────────────────────────────────────────────────────────── */
+function renderBids(bidders, amounts) {
+  const list = document.getElementById('bidsList');
+  document.getElementById('bidsEmpty').style.display = 'none';
+
+  // Sort by amount descending
+  const pairs = bidders.map((b, i) => ({ b, a: parseFloat(amounts[i]) }))
+                       .sort((x, y) => y.a - x.a);
+
+  list.innerHTML = '';
+  if (pairs.length === 0) {
+    list.innerHTML = '<li class="bids-empty">No bids yet — be the first!</li>';
+    return;
+  }
+
+  pairs.forEach(({ b, a }, idx) => {
+    const rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-n';
+    const isMe = userAddress && b.toLowerCase() === userAddress.toLowerCase();
+    const li = document.createElement('li');
+    li.className = 'bid-row';
+    li.innerHTML = `
+      <div class="bid-rank ${rankClass}">${idx + 1}</div>
+      <div class="bid-addr" title="${b}">${shortAddr(b)}</div>
+      ${isMe ? '<span class="bid-you">YOU</span>' : ''}
+      <div class="bid-amount">${a.toFixed(4)} ETH</div>
+    `;
+    list.appendChild(li);
+  });
+}
+
+function buildSeatMap(total, occupied, burned) {
+  const grid = document.getElementById('seatsGrid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= total; i++) {
+    const div = document.createElement('div');
+    div.className = 'seat-dot';
+    div.textContent = i;
+    if (i <= burned) {
+      div.classList.add('seat-burned');
+      div.title = `Seat #${i} — Burned`;
+    } else if (i <= occupied) {
+      div.classList.add('seat-occupied');
+      div.title = `Seat #${i} — Occupied`;
+    } else {
+      div.classList.add('seat-free');
+      div.title = `Seat #${i} — Available`;
+    }
+    grid.appendChild(div);
+  }
+}
+
+function pushEvent(type, html, time) {
+  const iconMap = { bid: '💰', heart: '💓', seat: '🏆', start: '🔔' };
+  const clsMap  = { bid: 'ev-bid', heart: 'ev-heart', seat: 'ev-seat', start: 'ev-start' };
+  eventLog.unshift({ type, html, time });
+  if (eventLog.length > 50) eventLog.pop();
+
+  const list = document.getElementById('eventsList');
+  document.getElementById('eventsEmpty').style.display = 'none';
+  document.getElementById('eventCount').textContent = eventLog.length + ' events';
+
+  // prepend
+  const li = document.createElement('li');
+  li.className = 'event-row';
+  li.innerHTML = `
+    <div class="event-icon ${clsMap[type] || 'ev-start'}">${iconMap[type] || '📌'}</div>
+    <div class="event-content">
+      <div class="event-text">${html}</div>
+      <div class="event-time">${time}</div>
+    </div>
+  `;
+  if (list.firstChild && list.firstChild.id === 'eventsEmpty') {
+    list.innerHTML = '';
+  }
+  list.insertBefore(li, list.firstChild);
+}
+
+/* ── Countdown ──────────────────────────────────────────────────────── */
+function startCountdown() {
+  if (countdownTimer) clearInterval(countdownTimer);
+  tick();
+  countdownTimer = setInterval(tick, 1000);
+}
+
+function tick() {
+  const now = Math.floor(Date.now() / 1000);
+  const diff = auctionEndTime - now;
+  if (diff <= 0) {
+    document.getElementById('cdH').textContent = '00';
+    document.getElementById('cdM').textContent = '00';
+    document.getElementById('cdS').textContent = '00';
+    return;
+  }
+  const h = Math.floor(diff / 3600);
+  const m = Math.floor((diff % 3600) / 60);
+  const s = diff % 60;
+  document.getElementById('cdH').textContent = String(h).padStart(2, '0');
+  document.getElementById('cdM').textContent = String(m).padStart(2, '0');
+  document.getElementById('cdS').textContent = String(s).padStart(2, '0');
+}
+
+/* ── Auto-refresh bar ───────────────────────────────────────────────── */
+function resetRefreshBar() {
+  const fill = document.getElementById('refreshFill');
+  fill.style.animation = 'none';
+  void fill.offsetWidth; // reflow
+  fill.style.animation = 'refill 30s linear infinite';
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   TOAST SYSTEM
+   ─────────────────────────────────────────────────────────────────────── */
+let toastId = 0;
+function toast(type, title, msg, duration = 6000) {
+  const container = document.getElementById('toastContainer');
+  const id = ++toastId;
+  const iconMap = { success: '✅', error: '❌', pending: '⏳', info: 'ℹ️' };
+
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.id = 'toast-' + id;
+  el.innerHTML = `
+    <div class="toast-icon">${iconMap[type] || '📌'}</div>
+    <div class="toast-content">
+      <div class="toast-title">${escHtml(title)}</div>
+      <div class="toast-msg">${msg}</div>
+    </div>
+    <div class="toast-close" onclick="dismissToast(${id})">×</div>
+  `;
+  container.appendChild(el);
+
+  if (duration > 0) {
+    setTimeout(() => dismissToast(id), duration);
+  }
+  return id;
+}
+
+function dismissToast(id) {
+  const el = document.getElementById('toast-' + id);
+  if (el) el.remove();
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   UTILITY
+   ─────────────────────────────────────────────────────────────────────── */
+function shortAddr(addr) {
+  if (!addr || addr.length < 10) return addr || '—';
+  return addr.slice(0, 6) + '…' + addr.slice(-4);
+}
+
+function txLink(hash) {
+  return `<a class="tx-link" href="${CONFIG.EXPLORER}/tx/${hash}" target="_blank">${hash.slice(0,10)}…${hash.slice(-6)}</a>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function setBtnLoading(id, loading) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  if (loading) {
+    btn._orig = btn.innerHTML;
+    btn.innerHTML = '<div class="spinner"></div> Processing…';
+  } else if (btn._orig) {
+    btn.innerHTML = btn._orig;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   ACCOUNT / CHAIN CHANGE HANDLERS
+   ─────────────────────────────────────────────────────────────────────── */
+if (window.ethereum) {
+  window.ethereum.on('accountsChanged', accounts => {
+    if (accounts.length === 0) {
+      document.getElementById('connectBtn').style.display = '';
+      document.getElementById('walletPill').style.display = 'none';
+      userAddress = null; signer = null; contract = null;
+    } else {
+      window.location.reload();
+    }
+  });
+  window.ethereum.on('chainChanged', () => window.location.reload());
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   AUTO-REFRESH
+   ─────────────────────────────────────────────────────────────────────── */
+setInterval(() => {
+  if (!simMode && contract) refreshAll();
+  else if (simMode) resetRefreshBar();
+}, CONFIG.REFRESH_INTERVAL);
+
+/* ────────────────────────────────────────────────────────────────────────
+   INIT — load demo data immediately so dashboard isn't blank
+   ─────────────────────────────────────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  // Show demo data right away, overlay is on top
+  simMode = true;
+  loadDemoData();
+});
+</script>
 </body>
 </html>
