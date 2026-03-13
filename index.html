@@ -24,303 +24,279 @@
     html, body { height: 100%; background: var(--bg); color: var(--text);
       font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-track  { background: var(--bg); }
+    ::-webkit-scrollbar-thumb  { background: var(--border); border-radius: 3px; }
 
-    /* ── App shell ─────────────────────────────────────── */
-    .app { display: flex; flex-direction: column; min-height: 100vh; }
+    .app  { display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* ── Topbar ────────────────────────────────────────── */
+    /* ── Topbar ────────────────────────────── */
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 13px 24px;
-      background: var(--panel); border-bottom: 1px solid var(--border);
+      padding: 13px 24px; background: var(--panel);
+      border-bottom: 1px solid var(--border);
       position: sticky; top: 0; z-index: 100;
     }
     .topbar-left  { display: flex; align-items: center; gap: 12px; }
-    .topbar-logo  {
+    .logo {
       width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
       background: linear-gradient(135deg, var(--accent), var(--cyan));
       display: flex; align-items: center; justify-content: center; font-size: 18px;
     }
-    .topbar-title   { font-size: 16px; font-weight: 800; letter-spacing: -.3px; }
-    .topbar-sub     { font-size: 11px; color: var(--muted); }
-    .topbar-right   { display: flex; align-items: center; gap: 10px; }
-    .chain-badge    {
+    .topbar-title { font-size: 16px; font-weight: 800; letter-spacing: -.3px; }
+    .topbar-sub   { font-size: 11px; color: var(--muted); }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .chain-badge  {
       display: flex; align-items: center; gap: 6px;
-      padding: 5px 12px; border: 1px solid var(--border); border-radius: 20px;
-      font-size: 12px; color: var(--muted);
+      padding: 5px 12px; border: 1px solid var(--border);
+      border-radius: 20px; font-size: 12px; color: var(--muted);
     }
     .chain-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
 
-    /* ── Buttons ───────────────────────────────────────── */
+    /* ── Buttons ───────────────────────────── */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 7px;
       padding: 9px 18px; border: none; border-radius: 8px;
       font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s; white-space: nowrap;
     }
-    .btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
-    .btn-primary  { background: linear-gradient(135deg, var(--accent), #6d28d9); color: #fff; }
-    .btn-primary:hover:not(:disabled)  { background: linear-gradient(135deg,var(--accent2),var(--accent)); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,.4); }
-    .btn-outline  { background: transparent; border: 1px solid var(--border); color: var(--text); }
-    .btn-outline:hover:not(:disabled)  { border-color: var(--accent); color: var(--accent2); }
-    .btn-green    { background: linear-gradient(135deg,#16a34a,var(--green)); color:#fff; }
-    .btn-green:hover:not(:disabled)    { transform:translateY(-1px); box-shadow:0 4px 20px rgba(34,197,94,.35); }
-    .btn-amber    { background: linear-gradient(135deg,#d97706,var(--amber)); color:#fff; }
-    .btn-amber:hover:not(:disabled)    { transform:translateY(-1px); box-shadow:0 4px 20px rgba(245,158,11,.35); }
-    .btn-cyan     { background: linear-gradient(135deg,#0891b2,var(--cyan)); color:#fff; }
-    .btn-cyan:hover:not(:disabled)     { transform:translateY(-1px); box-shadow:0 4px 20px rgba(6,182,212,.35); }
-    .btn-sm       { padding: 6px 13px; font-size: 12px; }
+    .btn:disabled { opacity:.4; cursor:not-allowed; transform:none!important; }
+    .btn-primary { background: linear-gradient(135deg,var(--accent),#6d28d9); color:#fff; }
+    .btn-primary:hover:not(:disabled) { background:linear-gradient(135deg,var(--accent2),var(--accent)); transform:translateY(-1px); box-shadow:0 4px 20px rgba(124,58,237,.4); }
+    .btn-outline  { background:transparent; border:1px solid var(--border); color:var(--text); }
+    .btn-outline:hover:not(:disabled)  { border-color:var(--accent); color:var(--accent2); }
+    .btn-green  { background:linear-gradient(135deg,#16a34a,var(--green)); color:#fff; }
+    .btn-green:hover:not(:disabled)   { transform:translateY(-1px); box-shadow:0 4px 20px rgba(34,197,94,.35); }
+    .btn-sm { padding:6px 13px; font-size:12px; }
 
-    /* ── Wallet pill ───────────────────────────────────── */
+    /* ── Wallet pill ───────────────────────── */
     .wallet-pill {
-      display: flex; align-items: center; gap: 8px;
-      padding: 6px 14px 6px 8px; border: 1px solid var(--border);
-      border-radius: 20px; font-size: 12px; cursor: pointer; background: var(--panel);
+      display:flex; align-items:center; gap:8px;
+      padding:6px 14px 6px 8px; border:1px solid var(--border);
+      border-radius:20px; font-size:12px; cursor:pointer; background:var(--panel);
     }
-    .wallet-pill:hover { border-color: var(--accent); }
-    .wallet-avatar {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: linear-gradient(135deg,var(--accent),var(--cyan));
-      display: flex; align-items: center; justify-content: center; font-size: 10px;
-    }
-    .wallet-addr { font-family: monospace; }
-    .wallet-bal  { font-size: 11px; color: var(--muted); }
+    .wallet-pill:hover { border-color:var(--accent); }
+    .wallet-avatar { width:22px; height:22px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--cyan)); display:flex; align-items:center; justify-content:center; font-size:10px; }
+    .wallet-addr { font-family:monospace; }
+    .wallet-bal  { font-size:11px; color:var(--muted); }
 
-    /* ── Main ──────────────────────────────────────────── */
-    .main { flex: 1; padding: 24px; max-width: 1400px; width: 100%; margin: 0 auto; }
-    .sec-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; }
+    /* ── Main ──────────────────────────────── */
+    .main { flex:1; padding:24px; max-width:1400px; width:100%; margin:0 auto; }
+    .sec-label { font-size:11px; font-weight:600; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; margin-bottom:12px; }
 
-    /* ── Stats grid ────────────────────────────────────── */
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-      gap: 14px; margin-bottom: 24px;
-    }
+    /* ── Stats grid ────────────────────────── */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(185px,1fr)); gap:14px; margin-bottom:24px; }
     .stat-card {
-      background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
-      padding: 18px 20px; position: relative; overflow: hidden;
+      background:var(--panel); border:1px solid var(--border); border-radius:var(--r);
+      padding:18px 20px; position:relative; overflow:hidden;
     }
-    .stat-card::after {
-      content:''; position:absolute; top:0; left:0; right:0; height:2px;
-      background: linear-gradient(90deg, var(--accent-line, var(--accent)), transparent);
+    .stat-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--cl,var(--accent)),transparent); }
+    .stat-card.purple { --cl:var(--accent2); }
+    .stat-card.red    { --cl:var(--red); }
+    .stat-card.amber  { --cl:var(--amber); }
+    .stat-card.cyan   { --cl:var(--cyan); }
+    .stat-card.green  { --cl:var(--green); }
+    .stat-label { font-size:11px; color:var(--muted); margin-bottom:8px; font-weight:500; }
+    .stat-val   { font-size:26px; font-weight:800; letter-spacing:-.5px; line-height:1; }
+    .stat-sub   { font-size:11px; color:var(--muted); margin-top:4px; }
+    .stat-card.purple .stat-val { color:var(--accent2); }
+    .stat-card.red    .stat-val { color:var(--red); }
+    .stat-card.amber  .stat-val { color:var(--amber); }
+    .stat-card.cyan   .stat-val { color:var(--cyan); }
+    .stat-card.green  .stat-val { color:var(--green); }
+
+    .seat-bar      { margin-top:10px; height:4px; border-radius:2px; background:var(--border); overflow:hidden; }
+    .seat-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--accent),var(--cyan)); transition:width .6s ease; }
+
+    /* ── Big slot card ─────────────────────── */
+    .slot-hero {
+      background:var(--panel); border:1px solid var(--border); border-radius:var(--r);
+      padding:22px 26px; margin-bottom:24px;
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;
     }
-    .stat-card.purple { --accent-line: var(--accent2); }
-    .stat-card.red    { --accent-line: var(--red);     }
-    .stat-card.amber  { --accent-line: var(--amber);   }
-    .stat-card.cyan   { --accent-line: var(--cyan);    }
-    .stat-card.green  { --accent-line: var(--green);   }
-    .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-    .stat-val   { font-size: 26px; font-weight: 800; letter-spacing: -.5px; line-height: 1; }
-    .stat-sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
-    .stat-card.purple .stat-val { color: var(--accent2); }
-    .stat-card.red    .stat-val { color: var(--red);     }
-    .stat-card.amber  .stat-val { color: var(--amber);   }
-    .stat-card.cyan   .stat-val { color: var(--cyan);    }
-    .stat-card.green  .stat-val { color: var(--green);   }
+    .slot-hero-left  {}
+    .slot-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(124,58,237,.15); border:1px solid rgba(124,58,237,.35);
+      border-radius:20px; padding:5px 14px; font-size:12px;
+      color:var(--accent2); font-weight:700; margin-bottom:10px;
+    }
+    .slot-badge-dot { width:6px; height:6px; border-radius:50%; background:var(--accent2); animation:pulse 1.5s infinite; }
+    .slot-title { font-size:28px; font-weight:900; letter-spacing:-.5px; margin-bottom:4px; }
+    .slot-meta  { font-size:12px; color:var(--muted); }
+    .slot-meta strong { color:var(--text); }
 
-    .seat-bar      { margin-top: 10px; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
-    .seat-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,var(--accent),var(--cyan)); transition: width .6s ease; }
+    .slot-hero-right { display:flex; gap:30px; align-items:center; flex-wrap:wrap; }
+    .slot-stat { text-align:center; }
+    .slot-stat-label { font-size:11px; color:var(--muted); margin-bottom:4px; }
+    .slot-stat-val   { font-size:20px; font-weight:800; }
+    .slot-stat-val.green  { color:var(--green); }
+    .slot-stat-val.amber  { color:var(--amber); }
+    .slot-stat-val.muted  { color:var(--muted); }
 
-    .countdown     { display: flex; gap: 5px; align-items: baseline; margin-top: 2px; }
-    .cd-seg        { text-align: center; }
-    .cd-num        { font-size: 22px; font-weight: 800; color: var(--amber); line-height: 1; }
-    .cd-unit       { font-size: 9px; color: var(--muted); }
-    .cd-sep        { font-size: 18px; font-weight: 800; color: var(--border); line-height: 1; }
+    /* ── Countdown ─────────────────────────── */
+    .countdown-wrap { text-align:center; }
+    .countdown-label { font-size:11px; color:var(--muted); margin-bottom:6px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
+    .countdown { display:flex; gap:4px; align-items:baseline; }
+    .cd-seg  { text-align:center; }
+    .cd-num  { font-size:32px; font-weight:900; color:var(--amber); line-height:1; }
+    .cd-unit { font-size:9px; color:var(--muted); }
+    .cd-sep  { font-size:28px; font-weight:800; color:var(--border); line-height:1.1; }
 
-    /* ── Seat map ──────────────────────────────────────── */
-    .seats-panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 24px; }
-    .seats-grid  { display: flex; flex-wrap: wrap; gap: 8px; padding: 18px; }
+    /* ── Window progress ───────────────────── */
+    .window-progress { margin-top:14px; }
+    .window-progress-label { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:5px; }
+    .window-bar  { height:6px; border-radius:3px; background:var(--border); overflow:hidden; }
+    .window-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--accent),var(--amber)); transition:width 1s linear; }
+
+    /* ── Seat map ──────────────────────────── */
+    .seats-panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:24px; }
+    .seats-grid  { display:flex; flex-wrap:wrap; gap:5px; padding:16px; }
     .seat-dot {
-      width: 36px; height: 36px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; cursor: pointer;
-      transition: transform .1s, box-shadow .1s; border: 1px solid transparent;
-      position: relative;
+      width:28px; height:28px; border-radius:6px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:9px; font-weight:700; cursor:default;
+      border:1px solid transparent; transition:transform .1s;
     }
-    .seat-dot:hover { transform: scale(1.14); }
-    .seat-dot[title]:hover::after {
-      content: attr(title);
-      position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
-      background: #1e1e35; color: var(--text); font-size: 10px; padding: 3px 7px;
-      border-radius: 4px; white-space: nowrap; pointer-events: none; z-index: 10;
-      border: 1px solid var(--border);
-    }
-    .seat-free     { background: var(--border); color: var(--muted); }
-    .seat-occupied { background: rgba(124,58,237,.25); color: var(--accent2); border-color: var(--accent); }
-    .seat-burned   { background: rgba(239,68,68,.12); color: var(--red); border-color: rgba(239,68,68,.3); }
-    .seat-yours    { background: linear-gradient(135deg,var(--accent),#6d28d9); color:#fff; box-shadow: 0 2px 14px rgba(124,58,237,.55); }
-    .seats-legend  { display: flex; gap: 18px; padding: 12px 18px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-    .leg-item      { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
-    .leg-dot       { width: 10px; height: 10px; border-radius: 3px; }
+    .seat-dot:hover { transform:scale(1.2); }
+    .seat-free     { background:rgba(255,255,255,.04); color:var(--border); }
+    .seat-occupied { background:rgba(124,58,237,.22); color:var(--accent2); border-color:rgba(124,58,237,.4); }
+    .seat-burned   { background:rgba(239,68,68,.1);   color:var(--red);     border-color:rgba(239,68,68,.25); }
+    .seat-yours    { background:linear-gradient(135deg,var(--accent),#6d28d9); color:#fff; box-shadow:0 2px 10px rgba(124,58,237,.5); }
+    .seats-legend  { display:flex; gap:18px; padding:10px 16px; border-top:1px solid var(--border); flex-wrap:wrap; }
+    .leg-item { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); }
+    .leg-dot  { width:10px; height:10px; border-radius:3px; }
 
-    /* ── Two-col ───────────────────────────────────────── */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
-    @media (max-width: 820px) { .two-col { grid-template-columns: 1fr; } }
+    /* ── Two-col ───────────────────────────── */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:24px; }
+    @media (max-width:820px) { .two-col { grid-template-columns:1fr; } }
 
-    /* ── Panel ─────────────────────────────────────────── */
-    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-    .panel-hdr { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px; border-bottom: 1px solid var(--border); }
-    .panel-title { font-size: 13px; font-weight: 700; }
+    /* ── Panel ─────────────────────────────── */
+    .panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+    .panel-hdr { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-bottom:1px solid var(--border); }
+    .panel-title { font-size:13px; font-weight:700; }
 
-    /* ── Bids list ─────────────────────────────────────── */
-    .bids-list { list-style: none; }
-    .bid-row {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 18px; border-bottom: 1px solid var(--border);
-      transition: background .1s;
-    }
-    .bid-row:last-child { border-bottom: none; }
-    .bid-row:hover { background: rgba(255,255,255,.02); }
-    .bid-rank { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    /* ── Bids ──────────────────────────────── */
+    .bids-list { list-style:none; }
+    .bid-row { display:flex; align-items:center; gap:12px; padding:10px 18px; border-bottom:1px solid var(--border); transition:background .1s; }
+    .bid-row:last-child { border-bottom:none; }
+    .bid-row:hover { background:rgba(255,255,255,.02); }
+    .bid-rank { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
     .r1 { background:#f59e0b22; color:#f59e0b; border:1px solid #f59e0b44; }
     .r2 { background:#94a3b822; color:#94a3b8; border:1px solid #94a3b844; }
     .r3 { background:#b4521022; color:#b45210; border:1px solid #b4521044; }
     .rn { background:var(--border); color:var(--muted); }
-    .bid-addr   { font-family: monospace; font-size: 12px; flex: 1; }
-    .bid-amount { font-weight: 700; color: var(--green); font-size: 13px; }
-    .bid-you    { font-size: 10px; color: var(--accent2); background: rgba(168,85,247,.12); padding: 2px 6px; border-radius: 4px; }
-    .list-empty { padding: 28px 18px; text-align: center; color: var(--muted); font-size: 13px; }
+    .bid-addr   { font-family:monospace; font-size:12px; flex:1; }
+    .bid-amount { font-weight:700; color:var(--green); font-size:13px; }
+    .bid-you    { font-size:10px; color:var(--accent2); background:rgba(168,85,247,.12); padding:2px 6px; border-radius:4px; }
+    .list-empty { padding:28px 18px; text-align:center; color:var(--muted); font-size:13px; }
 
-    /* ── Events ────────────────────────────────────────── */
-    .ev-list { list-style: none; max-height: 300px; overflow-y: auto; }
-    .ev-row  { display: flex; align-items: flex-start; gap: 10px; padding: 10px 18px; border-bottom: 1px solid var(--border); }
-    .ev-row:last-child { border-bottom: none; }
-    .ev-icon { width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
-    .ei-bid   { background:rgba(34,197,94,.15); }
-    .ei-heart { background:rgba(124,58,237,.15); }
-    .ei-seat  { background:rgba(245,158,11,.15); }
-    .ei-start { background:rgba(6,182,212,.15); }
-    .ev-body  { flex: 1; min-width: 0; }
-    .ev-text  { font-size: 12px; line-height: 1.4; }
-    .ev-text strong { color: var(--accent2); }
-    .ev-time  { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    /* ── Events ────────────────────────────── */
+    .ev-list { list-style:none; max-height:280px; overflow-y:auto; }
+    .ev-row  { display:flex; align-items:flex-start; gap:10px; padding:10px 18px; border-bottom:1px solid var(--border); }
+    .ev-row:last-child { border-bottom:none; }
+    .ev-icon { width:26px; height:26px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; margin-top:1px; }
+    .ei-bid  { background:rgba(34,197,94,.15); }
+    .ei-hb   { background:rgba(124,58,237,.15); }
+    .ei-seat { background:rgba(245,158,11,.15); }
+    .ei-info { background:rgba(6,182,212,.15); }
+    .ev-body { flex:1; min-width:0; }
+    .ev-text { font-size:12px; line-height:1.4; }
+    .ev-text strong { color:var(--accent2); }
+    .ev-time { font-size:10px; color:var(--muted); margin-top:2px; }
 
-    /* ── Contracts info strip ──────────────────────────── */
-    .contracts-strip {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      margin-bottom: 24px;
-    }
-    .contract-chip {
-      display: flex; align-items: center; gap: 8px;
-      padding: 7px 13px; border: 1px solid var(--border); border-radius: 8px;
-      font-size: 11px; background: var(--panel);
-    }
-    .contract-chip-label { color: var(--muted); }
-    .contract-chip-addr  { font-family: monospace; color: var(--accent2); }
-    .contract-chip a     { color: var(--cyan); text-decoration: none; }
-    .contract-chip a:hover { text-decoration: underline; }
+    /* ── Contract strip ────────────────────── */
+    .contracts-strip { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:24px; }
+    .c-chip { display:flex; align-items:center; gap:8px; padding:7px 13px; border:1px solid var(--border); border-radius:8px; font-size:11px; background:var(--panel); }
+    .c-chip-label { color:var(--muted); }
+    .c-chip-addr  { font-family:monospace; color:var(--accent2); text-decoration:none; }
+    .c-chip-addr:hover { text-decoration:underline; }
 
-    /* ── Action bar ────────────────────────────────────── */
-    .action-bar {
-      background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
-      padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: flex-end;
-      gap: 20px; margin-bottom: 24px;
-    }
-    .ag { display: flex; flex-direction: column; gap: 6px; }
-    .ag-label { font-size: 11px; color: var(--muted); font-weight: 500; }
-    .ag-row   { display: flex; gap: 8px; align-items: center; }
-    .ag-sub   { font-size: 11px; color: var(--muted); }
-    .act-input {
-      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-      color: var(--text); padding: 9px 14px; font-size: 14px; width: 155px; transition: border-color .15s;
-    }
-    .act-input:focus { outline: none; border-color: var(--accent); }
-    .act-input::placeholder { color: var(--muted); }
-    .act-divider { width: 1px; height: 54px; background: var(--border); align-self: flex-end; }
-
-    /* ── Treasury card ─────────────────────────────────── */
+    /* ── Treasury ──────────────────────────── */
     .treasury-card {
-      display: flex; align-items: center; gap: 16px;
-      background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
-      padding: 16px 22px; margin-bottom: 24px;
+      display:flex; align-items:center; gap:16px;
+      background:var(--panel); border:1px solid var(--border); border-radius:var(--r);
+      padding:16px 22px; margin-bottom:24px;
     }
-    .treasury-icon { font-size: 32px; }
-    .treasury-info { flex: 1; }
-    .treasury-label { font-size: 11px; color: var(--muted); font-weight: 500; }
-    .treasury-val   { font-size: 22px; font-weight: 800; color: var(--green); }
-    .treasury-sub   { font-size: 11px; color: var(--muted); }
+    .treasury-icon  { font-size:30px; }
+    .treasury-info  { flex:1; }
+    .treasury-label { font-size:11px; color:var(--muted); font-weight:500; }
+    .treasury-val   { font-size:22px; font-weight:800; color:var(--green); }
+    .treasury-sub   { font-size:11px; color:var(--muted); }
 
-    /* ── My status pill ────────────────────────────────── */
-    .my-status { display: flex; flex-direction: column; gap: 4px; }
+    /* ── Action bar ────────────────────────── */
+    .action-bar { background:var(--panel); border:1px solid var(--border); border-radius:var(--r); padding:20px 24px; display:flex; flex-wrap:wrap; align-items:flex-end; gap:20px; margin-bottom:24px; }
+    .ag { display:flex; flex-direction:column; gap:6px; }
+    .ag-label { font-size:11px; color:var(--muted); font-weight:500; }
+    .ag-row   { display:flex; gap:8px; align-items:center; }
+    .ag-sub   { font-size:11px; color:var(--muted); }
+    .act-input { background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text); padding:9px 14px; font-size:14px; width:155px; transition:border-color .15s; }
+    .act-input:focus { outline:none; border-color:var(--accent); }
+    .act-input::placeholder { color:var(--muted); }
+    .act-divider { width:1px; height:54px; background:var(--border); align-self:flex-end; }
 
-    /* ── Auto-refresh bar ──────────────────────────────── */
-    .refresh-bar  { height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; margin-bottom: 20px; }
-    .refresh-fill { height: 100%; background: var(--accent2); border-radius: 1px; }
+    /* ── Auto-refresh ──────────────────────── */
+    .refresh-bar  { height:2px; background:var(--border); border-radius:1px; overflow:hidden; margin-bottom:20px; }
+    .refresh-fill { height:100%; background:var(--accent2); border-radius:1px; }
     @keyframes refill { from{width:100%} to{width:0%} }
 
-    /* ── Connect overlay ───────────────────────────────── */
-    .overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.75);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 200; backdrop-filter: blur(5px);
-    }
-    .modal {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 20px; padding: 36px; max-width: 400px; width: 90%; text-align: center;
-    }
-    .modal h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-    .modal p  { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
-    .conn-opts { display: flex; flex-direction: column; gap: 12px; }
-    .conn-opt  {
-      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 12px; cursor: pointer; transition: all .15s; text-align: left;
-    }
-    .conn-opt:hover  { border-color: var(--accent); background: rgba(124,58,237,.07); }
-    .conn-opt-icon   { font-size: 24px; flex-shrink: 0; }
-    .conn-opt-name   { font-weight: 700; font-size: 14px; }
-    .conn-opt-desc   { font-size: 11px; color: var(--muted); }
-    .modal-skip      { margin-top: 20px; cursor: pointer; color: var(--muted); font-size: 13px; background: none; border: none; text-decoration: underline; }
-    .modal-skip:hover{ color: var(--text); }
+    /* ── Connect overlay ───────────────────── */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.75); display:flex; align-items:center; justify-content:center; z-index:200; backdrop-filter:blur(5px); }
+    .modal { background:var(--panel); border:1px solid var(--border); border-radius:20px; padding:36px; max-width:400px; width:90%; text-align:center; }
+    .modal h2 { font-size:20px; font-weight:800; margin-bottom:8px; }
+    .modal p  { color:var(--muted); font-size:13px; margin-bottom:28px; line-height:1.6; }
+    .conn-opts { display:flex; flex-direction:column; gap:12px; }
+    .conn-opt  { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--bg); border:1px solid var(--border); border-radius:12px; cursor:pointer; transition:all .15s; text-align:left; }
+    .conn-opt:hover { border-color:var(--accent); background:rgba(124,58,237,.07); }
+    .conn-opt-icon { font-size:24px; flex-shrink:0; }
+    .conn-opt-name { font-weight:700; font-size:14px; }
+    .conn-opt-desc { font-size:11px; color:var(--muted); }
+    .modal-skip { margin-top:20px; cursor:pointer; color:var(--muted); font-size:13px; background:none; border:none; text-decoration:underline; }
+    .modal-skip:hover { color:var(--text); }
 
-    /* ── Toasts ────────────────────────────────────────── */
-    .toast-wrap  { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; }
-    .toast {
-      display: flex; align-items: flex-start; gap: 10px; padding: 14px 18px;
-      background: var(--panel); border: 1px solid var(--border); border-radius: var(--r);
-      box-shadow: 0 8px 30px rgba(0,0,0,.55); min-width: 270px; max-width: 360px;
-      animation: slideIn .2s ease;
-    }
+    /* ── Toasts ────────────────────────────── */
+    .toast-wrap { position:fixed; bottom:24px; right:24px; display:flex; flex-direction:column; gap:8px; z-index:9999; }
+    .toast { display:flex; align-items:flex-start; gap:10px; padding:14px 18px; background:var(--panel); border:1px solid var(--border); border-radius:var(--r); box-shadow:0 8px 30px rgba(0,0,0,.55); min-width:270px; max-width:360px; animation:slideIn .2s ease; }
     @keyframes slideIn { from{transform:translateX(40px);opacity:0} to{transform:translateX(0);opacity:1} }
-    .toast.success { border-left: 3px solid var(--green); }
-    .toast.error   { border-left: 3px solid var(--red);   }
-    .toast.pending { border-left: 3px solid var(--amber); }
-    .toast.info    { border-left: 3px solid var(--cyan);  }
-    .toast-icon    { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-    .toast-body    { flex: 1; min-width: 0; }
-    .toast-title   { font-size: 13px; font-weight: 700; }
-    .toast-msg     { font-size: 12px; color: var(--muted); margin-top: 2px; word-break: break-all; }
-    .toast-x       { cursor: pointer; color: var(--muted); font-size: 16px; flex-shrink: 0; }
+    .toast.success { border-left:3px solid var(--green); }
+    .toast.error   { border-left:3px solid var(--red);   }
+    .toast.pending { border-left:3px solid var(--amber); }
+    .toast.info    { border-left:3px solid var(--cyan);  }
+    .toast-icon  { font-size:16px; flex-shrink:0; margin-top:1px; }
+    .toast-body  { flex:1; min-width:0; }
+    .toast-title { font-size:13px; font-weight:700; }
+    .toast-msg   { font-size:12px; color:var(--muted); margin-top:2px; word-break:break-all; }
+    .toast-x     { cursor:pointer; color:var(--muted); font-size:16px; flex-shrink:0; }
     @keyframes spin { to{transform:rotate(360deg)} }
-    .spinner       { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,.2); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
-
-    .tx-link { color: var(--cyan); text-decoration: none; font-family: monospace; font-size: 11px; }
-    .tx-link:hover { text-decoration: underline; }
+    .spinner { width:13px; height:13px; border:2px solid rgba(255,255,255,.2); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
+    .tx-link { color:var(--cyan); text-decoration:none; font-family:monospace; font-size:11px; }
+    .tx-link:hover { text-decoration:underline; }
 
     @media (max-width:600px) {
-      .topbar { padding: 12px 16px; }
-      .main   { padding: 14px; }
-      .stats-grid { grid-template-columns: repeat(2,1fr); }
-      .action-bar { flex-direction: column; align-items: stretch; }
-      .act-divider { display: none; }
+      .topbar { padding:12px 16px; }
+      .main   { padding:14px; }
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .action-bar { flex-direction:column; align-items:stretch; }
+      .act-divider { display:none; }
+      .slot-hero { flex-direction:column; }
+      .cd-num { font-size:26px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ CONNECT OVERLAY ═══ -->
+<!-- CONNECT OVERLAY -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <div style="font-size:42px;margin-bottom:12px">⚖️</div>
     <h2>The AI Assembly</h2>
-    <p>Connect your wallet to interact with the Council Chamber on Abstract mainnet.</p>
+    <p>Connect your wallet to interact with the Council Chamber.<br>
+       Running on <strong style="color:var(--accent2)">Abstract Mainnet</strong> (chain 2741).</p>
     <div class="conn-opts">
       <div class="conn-opt" onclick="connectWallet('agw')">
         <span class="conn-opt-icon">🔮</span>
         <div>
           <div class="conn-opt-name">Abstract Global Wallet</div>
-          <div class="conn-opt-desc">Native smart contract wallet — sponsored gas, no seed phrase</div>
+          <div class="conn-opt-desc">Native smart-contract wallet on Abstract — sponsored gas, no seed phrase</div>
         </div>
       </div>
       <div class="conn-opt" onclick="connectWallet('injected')">
@@ -335,46 +311,39 @@
   </div>
 </div>
 
-<!-- ═══ APP ═══ -->
 <div class="app">
 
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-left">
-      <div class="topbar-logo">⚖️</div>
+      <div class="logo">⚖️</div>
       <div>
         <div class="topbar-title">The AI Assembly</div>
         <div class="topbar-sub">Council Chamber · Abstract Mainnet · Chain 2741</div>
       </div>
     </div>
     <div class="topbar-right">
-      <div class="chain-badge" id="chainBadge">
-        <span class="chain-dot"></span>
-        <span id="chainName">Abstract</span>
-      </div>
+      <div class="chain-badge"><span class="chain-dot"></span><span id="chainName">Abstract</span></div>
       <button class="btn btn-primary" id="connectBtn" onclick="showOverlay()">🔗 Connect Wallet</button>
       <div class="wallet-pill" id="walletPill" style="display:none" onclick="showOverlay()">
         <div class="wallet-avatar">👤</div>
         <div>
           <div class="wallet-addr" id="walletAddr">0x…</div>
-          <div class="wallet-bal"  id="walletBal" >0.000 ETH</div>
+          <div class="wallet-bal"  id="walletBal">0.000 ETH</div>
         </div>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="refreshAll()" title="Refresh">↺</button>
+      <button class="btn btn-outline btn-sm" onclick="refreshAll()" title="Refresh data">↺</button>
     </div>
   </header>
 
-  <!-- MAIN -->
   <main class="main">
 
-    <!-- auto-refresh indicator -->
+    <!-- auto-refresh bar -->
     <div class="refresh-bar"><div class="refresh-fill" id="rfill" style="animation:refill 30s linear infinite"></div></div>
 
-    <!-- contracts strip -->
+    <!-- contract strip -->
     <div class="sec-label">Deployed Contracts</div>
-    <div class="contracts-strip" id="contractsStrip">
-      <!-- injected by JS -->
-    </div>
+    <div class="contracts-strip" id="contractsStrip"></div>
 
     <!-- treasury -->
     <div class="treasury-card">
@@ -382,7 +351,7 @@
       <div class="treasury-info">
         <div class="treasury-label">Treasury Balance</div>
         <div class="treasury-val" id="treasuryBal">—</div>
-        <div class="treasury-sub">ETH held in <code style="font-size:10px;color:var(--muted)">0xC2e6…eb9</code></div>
+        <div class="treasury-sub">ETH · <code style="font-size:10px">0xC2e6…eb9</code></div>
       </div>
       <div style="text-align:right">
         <div style="font-size:11px;color:var(--muted)">Total Members</div>
@@ -391,51 +360,83 @@
       </div>
     </div>
 
-    <!-- stats -->
+    <!-- ═══ LIVE SLOT HERO ═══ -->
+    <div class="sec-label">Article II — Seat Auctions</div>
+    <div class="slot-hero">
+      <div class="slot-hero-left">
+        <div class="slot-badge">
+          <span class="slot-badge-dot"></span>
+          LIVE SLOT
+        </div>
+        <div class="slot-title">Slot #<span id="slotNum">032</span></div>
+        <div class="slot-meta">
+          One slot per 6-hour window · Sequential through the day<br>
+          Window closes: <strong id="slotCloseTime">—</strong>
+        </div>
+        <div class="window-progress">
+          <div class="window-progress-label">
+            <span>Window open</span>
+            <span id="windowPct">—</span>
+          </div>
+          <div class="window-bar"><div class="window-fill" id="windowFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="slot-hero-right">
+        <div class="slot-stat">
+          <div class="slot-stat-label">Highest Bid</div>
+          <div class="slot-stat-val green" id="slotTopBid">$0.00</div>
+          <div style="font-size:11px;color:var(--muted)" id="slotTopBidEth">0.00 ETH</div>
+        </div>
+        <div class="slot-stat">
+          <div class="slot-stat-label">Bid Count</div>
+          <div class="slot-stat-val amber" id="slotBidCount">0</div>
+        </div>
+        <div class="countdown-wrap">
+          <div class="countdown-label">Current Slot Closes In</div>
+          <div class="countdown">
+            <div class="cd-seg"><div class="cd-num" id="cdH">—</div><div class="cd-unit">HRS</div></div>
+            <div class="cd-sep">:</div>
+            <div class="cd-seg"><div class="cd-num" id="cdM">—</div><div class="cd-unit">MIN</div></div>
+            <div class="cd-sep">:</div>
+            <div class="cd-seg"><div class="cd-num" id="cdS">—</div><div class="cd-unit">SEC</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- council stats -->
     <div class="sec-label">Council Overview</div>
     <div class="stats-grid">
 
       <div class="stat-card purple">
         <div class="stat-label">Seats Occupied</div>
-        <div class="stat-val" id="statOccupied">—</div>
-        <div class="stat-sub">of <span id="statTotal">—</span> total council seats</div>
-        <div class="seat-bar"><div class="seat-bar-fill" id="seatFill" style="width:0%"></div></div>
+        <div class="stat-val"><span id="statOccupied">23</span></div>
+        <div class="stat-sub">of <span id="statTotal">180</span> total council seats</div>
+        <div class="seat-bar"><div class="seat-bar-fill" id="seatFill" style="width:12.8%"></div></div>
+      </div>
+
+      <div class="stat-card cyan">
+        <div class="stat-label">Seats Available</div>
+        <div class="stat-val" id="statFree">157</div>
+        <div class="stat-sub">open for auction</div>
       </div>
 
       <div class="stat-card red">
         <div class="stat-label">Burned / Expired</div>
         <div class="stat-val" id="statBurned">—</div>
-        <div class="stat-sub">seats lost to missed heartbeats</div>
-      </div>
-
-      <div class="stat-card cyan">
-        <div class="stat-label">Auction #</div>
-        <div class="stat-val" id="statAid">—</div>
-        <div class="stat-sub" id="statAStatus">Loading…</div>
+        <div class="stat-sub">lost to missed heartbeats</div>
       </div>
 
       <div class="stat-card amber">
-        <div class="stat-label">Bidders</div>
-        <div class="stat-val" id="statBidders">—</div>
-        <div class="stat-sub">participants in current auction</div>
+        <div class="stat-label">Slots Completed</div>
+        <div class="stat-val" id="statSlotsDone">31</div>
+        <div class="stat-sub">auctions held so far</div>
       </div>
 
       <div class="stat-card green">
-        <div class="stat-label">Top Bid</div>
-        <div class="stat-val" id="statTopBid">—</div>
-        <div class="stat-sub" id="statTopBidder">no bids yet</div>
-      </div>
-
-      <div class="stat-card amber">
-        <div class="stat-label">Time Remaining</div>
-        <div class="countdown">
-          <div class="cd-seg"><div class="cd-num" id="cdH">—</div><div class="cd-unit">HRS</div></div>
-          <div class="cd-sep">:</div>
-          <div class="cd-seg"><div class="cd-num" id="cdM">—</div><div class="cd-unit">MIN</div></div>
-          <div class="cd-sep">:</div>
-          <div class="cd-seg"><div class="cd-num" id="cdS">—</div><div class="cd-unit">SEC</div></div>
-        </div>
-        <div class="stat-sub" id="auctionEndLbl">Auction end time</div>
+        <div class="stat-label">Fill Rate</div>
+        <div class="stat-val" id="statFillRate">12.8%</div>
+        <div class="stat-sub">seats claimed vs total</div>
       </div>
 
     </div>
@@ -443,13 +444,13 @@
     <!-- seat map -->
     <div class="seats-panel">
       <div class="panel-hdr">
-        <span class="panel-title">Seat Map</span>
-        <span style="font-size:11px;color:var(--muted)">Hover for details</span>
+        <span class="panel-title">Seat Map — 180 Council Seats</span>
+        <span style="font-size:11px;color:var(--muted)">23 occupied · Hover for details</span>
       </div>
       <div class="seats-grid" id="seatsGrid"></div>
       <div class="seats-legend">
-        <div class="leg-item"><div class="leg-dot" style="background:var(--border)"></div>Free</div>
-        <div class="leg-item"><div class="leg-dot" style="background:var(--accent)"></div>Occupied</div>
+        <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,.04);border:1px solid var(--border)"></div>Free</div>
+        <div class="leg-item"><div class="leg-dot" style="background:rgba(124,58,237,.35)"></div>Occupied</div>
         <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Burned</div>
         <div class="leg-item"><div class="leg-dot" style="background:linear-gradient(135deg,var(--accent),#6d28d9)"></div>Yours</div>
       </div>
@@ -457,17 +458,15 @@
 
     <!-- bids + events -->
     <div class="two-col">
-
       <div class="panel">
         <div class="panel-hdr">
-          <span class="panel-title">🏆 Current Auction Bids</span>
+          <span class="panel-title">🏆 Slot #<span id="bidSlotNum">032</span> Bids</span>
           <span class="btn btn-outline btn-sm" style="cursor:pointer" onclick="loadBids()">↺</span>
         </div>
         <ul class="bids-list" id="bidsList">
-          <li class="list-empty">Connect wallet to load bids</li>
+          <li class="list-empty" id="bidsEmpty">No bids yet on this slot</li>
         </ul>
       </div>
-
       <div class="panel">
         <div class="panel-hdr">
           <span class="panel-title">📡 Live Events</span>
@@ -477,16 +476,14 @@
           <li class="list-empty">Waiting for on-chain events…</li>
         </ul>
       </div>
-
     </div>
 
     <!-- action bar -->
     <div class="sec-label">Interact with Contracts</div>
     <div class="action-bar">
 
-      <!-- Heartbeat -->
       <div class="ag">
-        <div class="ag-label">REGISTRY — heartbeat() · prove you're active</div>
+        <div class="ag-label">REGISTRY — heartbeat() · renew your membership</div>
         <div class="ag-row">
           <button class="btn btn-primary" id="hbBtn" onclick="sendHeartbeat()" disabled>💓 Send Heartbeat</button>
           <span class="ag-sub" id="hbFeeLabel">Fee: —</span>
@@ -496,9 +493,8 @@
 
       <div class="act-divider"></div>
 
-      <!-- Bid -->
       <div class="ag">
-        <div class="ag-label">COUNCIL SEATS — bid() · join the current auction</div>
+        <div class="ag-label">COUNCIL SEATS — bid on Slot #<span id="bidSlotLabel">032</span></div>
         <div class="ag-row">
           <input class="act-input" type="number" id="bidAmt" placeholder="0.05 ETH" step="0.001" min="0" />
           <button class="btn btn-green" id="bidBtn" onclick="placeBid()" disabled>💰 Place Bid</button>
@@ -508,11 +504,10 @@
 
       <div class="act-divider"></div>
 
-      <!-- My status -->
       <div class="ag">
         <div class="ag-label">My Council Status</div>
-        <div class="my-status" id="myStatus">
-          <span style="color:var(--muted)">—</span>
+        <div id="myStatus" style="display:flex;flex-direction:column;gap:4px">
+          <span style="color:var(--muted)">Connect wallet to view</span>
         </div>
       </div>
 
@@ -521,14 +516,13 @@
   </main>
 </div>
 
-<!-- ═══ TOASTS ═══ -->
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   CONTRACT ADDRESSES  (Abstract Mainnet · chain 2741)
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   ADDRESSES
+═══════════════════════════════════════════════════════ */
 const ADDR = {
   Registry:    "0x0A013Ca2Df9d6C399F9597d438d79Be71B43cb63",
   CouncilSeats:"0xc37cC38F4e463F50745Bdf9F306Ce6b4b6335717",
@@ -537,116 +531,101 @@ const ADDR = {
   Treasury:    "0xC2e6DDbdc1A8e4DcCc60A78B6Faa197967a8FEb9",
 };
 
-/* ═══════════════════════════════════════════════════════════════
-   ABIs
-   Based on The AI Assembly constitution + standard auction/registry
-   patterns.  If a call reverts, the dashboard silently falls back
-   to demo data — check abscan.org/#code to verify exact signatures.
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   ABIs  (update if exact function names differ on abscan)
+═══════════════════════════════════════════════════════ */
 const ABI_REGISTRY = [
-  // ── View ──────────────────────────────────────────────
   "function heartbeatFee() view returns (uint256)",
   "function registrationFee() view returns (uint256)",
   "function heartbeatInterval() view returns (uint256)",
   "function totalMembers() view returns (uint256)",
   "function isRegistered(address) view returns (bool)",
   "function lastHeartbeat(address) view returns (uint256)",
-  "function memberSince(address) view returns (uint256)",
-  // ── Write ─────────────────────────────────────────────
   "function register() payable",
   "function heartbeat() payable",
-  // ── Events ────────────────────────────────────────────
   "event Registered(address indexed member, uint256 timestamp)",
   "event HeartbeatSent(address indexed member, uint256 timestamp)",
-  "event MemberExpired(address indexed member, uint256 timestamp)",
+  "event MemberExpired(address indexed member)",
 ];
 
+// CouncilSeats uses "slots" (6-hour sequential windows)
 const ABI_SEATS = [
-  // ── View ──────────────────────────────────────────────
+  // council state
   "function totalSeats() view returns (uint256)",
   "function seatsOccupied() view returns (uint256)",
   "function seatsBurned() view returns (uint256)",
+  // slot / auction — try both naming conventions
+  "function currentSlotId() view returns (uint256)",
   "function currentAuctionId() view returns (uint256)",
-  "function getAuction(uint256 id) view returns (uint256 endTime, uint256 participantCount, uint256 topBid, address topBidder, bool active, uint256 seatsOffered)",
-  "function getBids(uint256 auctionId) view returns (address[] bidders, uint256[] amounts)",
-  "function minBidIncrement() view returns (uint256)",
+  "function getSlot(uint256 id) view returns (uint256 endTime, uint256 bidCount, uint256 highestBid, address highestBidder, bool active)",
+  "function getAuction(uint256 id) view returns (uint256 endTime, uint256 bidCount, uint256 highestBid, address highestBidder, bool active)",
+  "function getBids(uint256 slotId) view returns (address[] bidders, uint256[] amounts)",
   "function minBid() view returns (uint256)",
+  "function minBidIncrement() view returns (uint256)",
+  // seat queries
   "function hasSeat(address) view returns (bool)",
   "function getSeatOf(address) view returns (uint256 seatId, uint256 expiry)",
-  "function seatExpiry(uint256 seatId) view returns (uint256)",
   "function seatHolder(uint256 seatId) view returns (address)",
-  // ── Write ─────────────────────────────────────────────
-  "function bid(uint256 auctionId) payable",
-  // ── Events ────────────────────────────────────────────
-  "event NewBid(address indexed bidder, uint256 indexed auctionId, uint256 amount)",
-  "event AuctionStarted(uint256 indexed auctionId, uint256 endTime, uint256 seatsOffered)",
-  "event AuctionEnded(uint256 indexed auctionId)",
-  "event SeatAwarded(address indexed winner, uint256 indexed seatId, uint256 indexed auctionId)",
+  // bid — slot id explicit or implicit (current)
+  "function bid(uint256 slotId) payable",
+  "function bid() payable",
+  // events
+  "event NewBid(address indexed bidder, uint256 indexed slotId, uint256 amount)",
+  "event SlotStarted(uint256 indexed slotId, uint256 endTime)",
+  "event AuctionStarted(uint256 indexed id, uint256 endTime)",
+  "event SeatAwarded(address indexed winner, uint256 indexed seatId, uint256 indexed slotId)",
   "event SeatBurned(address indexed holder, uint256 indexed seatId)",
-  "event SeatRenewed(address indexed holder, uint256 indexed seatId, uint256 newExpiry)",
 ];
 
-/* ═══════════════════════════════════════════════════════════════
-   STATE
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   CHAIN CONFIG
+═══════════════════════════════════════════════════════ */
 const CHAIN = {
-  id:       2741,
-  name:     "Abstract",
-  rpc:      "https://api.mainnet.abs.xyz",
-  explorer: "https://abscan.org",
-  symbol:   "ETH",
+  id: 2741, name: "Abstract",
+  rpc: "https://api.mainnet.abs.xyz",
+  explorer: "https://abscan.org", symbol: "ETH",
 };
+const SLOT_WINDOW_SEC = 6 * 3600; // 6-hour slots
 const REFRESH_MS = 30_000;
 
-let provider, signer;
-let cRegistry, cSeats;
-let userAddress;
-let auctionEnd = 0;
-let cdTimer    = null;
-let demo       = false;
-let evLog      = [];
-let toastCtr   = 0;
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+let provider, signer, cRegistry, cSeats, userAddress;
+let slotEnd = 0, slotStart = 0;
+let cdTimer = null, demo = false, evLog = [], toastCtr = 0;
 
-/* ═══════════════════════════════════════════════════════════════
-   BOOT
-═══════════════════════════════════════════════════════════════ */
+// Known on-chain values from website (used as fallback / initial render)
+const KNOWN = { totalSeats: 180, occupied: 23, currentSlot: 32 };
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => {
   buildContractsStrip();
-  // Show demo while overlay is visible
   demo = true;
   loadDemoData();
-  setInterval(() => { if (cSeats) refreshAll(); else if (demo) resetRfill(); }, REFRESH_MS);
+  setInterval(() => { if (cSeats) refreshAll(); else resetRfill(); }, REFRESH_MS);
 });
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    CONTRACTS STRIP
-═══════════════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function buildContractsStrip() {
   const strip = document.getElementById('contractsStrip');
-  const labels = {
-    Registry:     'Registry',
-    CouncilSeats: 'CouncilSeats',
-    Forum:        'Forum',
-    Governance:   'Governance',
-    Treasury:     'Treasury',
-  };
-  for (const [key, label] of Object.entries(labels)) {
-    const addr = ADDR[key];
-    const short = addr.slice(0,6)+'…'+addr.slice(-4);
+  for (const [key, addr] of Object.entries(ADDR)) {
     const chip = document.createElement('div');
-    chip.className = 'contract-chip';
-    chip.innerHTML = `
-      <span class="contract-chip-label">${label}</span>
-      <a class="contract-chip-addr" href="${CHAIN.explorer}/address/${addr}" target="_blank"
-         title="${addr}">${short}</a>
-    `;
+    chip.className = 'c-chip';
+    chip.innerHTML = `<span class="c-chip-label">${key}</span>
+      <a class="c-chip-addr" href="${CHAIN.explorer}/address/${addr}" target="_blank"
+         title="${addr}">${addr.slice(0,6)}…${addr.slice(-4)}</a>`;
     strip.appendChild(chip);
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   WALLET CONNECTION
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   WALLET
+═══════════════════════════════════════════════════════ */
 function showOverlay()  { document.getElementById('overlay').style.display = 'flex'; }
 function hideOverlay()  { document.getElementById('overlay').style.display = 'none'; }
 function skipConnect()  { hideOverlay(); demo = true; loadDemoData(); }
@@ -655,29 +634,21 @@ async function connectWallet(type) {
   hideOverlay();
   if (typeof window.ethereum === 'undefined') {
     toast('error', 'No wallet found',
-      type === 'agw'
-        ? 'Install Abstract Global Wallet from abs.xyz'
-        : 'Install MetaMask or another browser wallet');
-    return;
+      type === 'agw' ? 'Install Abstract Global Wallet from abs.xyz' : 'Install MetaMask or Rabby'); return;
   }
   try {
     toast('pending', 'Connecting…', 'Waiting for wallet approval');
     await window.ethereum.request({ method: 'eth_requestAccounts' });
     provider = new ethers.providers.Web3Provider(window.ethereum);
-
     await ensureChain();
-
-    signer      = provider.getSigner();
+    signer = provider.getSigner();
     userAddress = await signer.getAddress();
-
-    cRegistry = new ethers.Contract(ADDR.Registry,    ABI_REGISTRY, signer);
-    cSeats    = new ethers.Contract(ADDR.CouncilSeats, ABI_SEATS,    signer);
-
+    cRegistry = new ethers.Contract(ADDR.Registry,     ABI_REGISTRY, signer);
+    cSeats    = new ethers.Contract(ADDR.CouncilSeats,  ABI_SEATS,    signer);
     demo = false;
     updateWalletUI();
     await refreshAll();
     subscribeEvents();
-
     toast('success', 'Connected!', shortAddr(userAddress));
   } catch (err) {
     console.error(err);
@@ -689,22 +660,14 @@ async function ensureChain() {
   const net = await provider.getNetwork();
   if (net.chainId === CHAIN.id) return;
   try {
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: ethers.utils.hexValue(CHAIN.id) }],
-    });
+    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: ethers.utils.hexValue(CHAIN.id) }] });
   } catch (e) {
     if (e.code === 4902) {
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [{
-          chainId:            ethers.utils.hexValue(CHAIN.id),
-          chainName:          CHAIN.name,
-          nativeCurrency:     { name: 'Ether', symbol: CHAIN.symbol, decimals: 18 },
-          rpcUrls:            [CHAIN.rpc],
-          blockExplorerUrls:  [CHAIN.explorer],
-        }],
-      });
+      await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{
+        chainId: ethers.utils.hexValue(CHAIN.id), chainName: CHAIN.name,
+        nativeCurrency: { name: 'Ether', symbol: CHAIN.symbol, decimals: 18 },
+        rpcUrls: [CHAIN.rpc], blockExplorerUrls: [CHAIN.explorer],
+      }]});
     } else throw e;
   }
   provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -716,267 +679,301 @@ function updateWalletUI() {
   document.getElementById('walletAddr').textContent = shortAddr(userAddress);
   document.getElementById('hbBtn').disabled  = false;
   document.getElementById('bidBtn').disabled = false;
-  if (provider) {
-    provider.getBalance(userAddress).then(b =>
-      document.getElementById('walletBal').textContent =
-        parseFloat(ethers.utils.formatEther(b)).toFixed(4) + ' ETH'
-    ).catch(()=>{});
-  }
+  provider.getBalance(userAddress).then(b =>
+    document.getElementById('walletBal').textContent = fmtEth4(b) + ' ETH'
+  ).catch(()=>{});
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   DATA LOADING
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════ */
 async function refreshAll() {
   resetRfill();
   if (demo) { loadDemoData(); return; }
   try {
-    await Promise.all([
-      loadTreasury(),
-      loadRegistryStats(),
-      loadSeatsStats(),
-      loadBids(),
-      loadMyStatus(),
-    ]);
+    await Promise.all([loadTreasury(), loadRegistry(), loadSlotData(), loadMyStatus()]);
   } catch (err) {
-    console.warn('Refresh error (falling to demo):', err);
-    demo = true; loadDemoData();
+    console.warn('Refresh error:', err);
+    if (!demo) { demo = true; loadDemoData(); }
   }
 }
 
 async function loadTreasury() {
-  const prov = provider || new ethers.providers.JsonRpcProvider(CHAIN.rpc);
-  const bal  = await prov.getBalance(ADDR.Treasury);
-  document.getElementById('treasuryBal').textContent =
-    parseFloat(ethers.utils.formatEther(bal)).toFixed(4) + ' ETH';
+  const p = provider || new ethers.providers.JsonRpcProvider(CHAIN.rpc);
+  const b = await p.getBalance(ADDR.Treasury);
+  document.getElementById('treasuryBal').textContent = fmtEth4(b) + ' ETH';
 }
 
-async function loadRegistryStats() {
+async function loadRegistry() {
   const [total, fee, interval] = await Promise.all([
     cRegistry.totalMembers(),
     cRegistry.heartbeatFee(),
     cRegistry.heartbeatInterval().catch(() => ethers.BigNumber.from(0)),
   ]);
   document.getElementById('statMembers').textContent = total.toString();
-
-  const feeEth = parseFloat(ethers.utils.formatEther(fee)).toFixed(4);
-  document.getElementById('hbFeeLabel').textContent = `Fee: ${feeEth} ETH`;
-
+  document.getElementById('hbFeeLabel').textContent  = 'Fee: ' + fmtEth4(fee) + ' ETH';
   if (userAddress) {
     const last = await cRegistry.lastHeartbeat(userAddress).catch(() => null);
     if (last && last.gt(0)) {
-      const d   = new Date(last.toNumber() * 1000);
-      const intS = interval.toNumber();
-      const nextBeat = new Date((last.toNumber() + intS) * 1000);
-      document.getElementById('hbLastLabel').textContent =
-        `Last: ${d.toLocaleString()}  ·  Next due: ${intS > 0 ? nextBeat.toLocaleString() : '—'}`;
+      const intSec  = interval.toNumber();
+      const lastStr = new Date(last.toNumber() * 1000).toLocaleString();
+      const nextStr = intSec > 0 ? new Date((last.toNumber() + intSec) * 1000).toLocaleString() : '—';
+      document.getElementById('hbLastLabel').textContent = `Last: ${lastStr}  ·  Next due: ${nextStr}`;
     } else {
-      document.getElementById('hbLastLabel').textContent = 'Last heartbeat: never';
+      document.getElementById('hbLastLabel').textContent = 'Last heartbeat: never sent';
     }
   }
 }
 
-async function loadSeatsStats() {
-  const [total, occupied, burned, auctionId] = await Promise.all([
-    cSeats.totalSeats(),
-    cSeats.seatsOccupied(),
-    cSeats.seatsBurned(),
-    cSeats.currentAuctionId(),
-  ]);
+async function loadSlotData() {
+  // Try currentSlotId first, fall back to currentAuctionId
+  let slotId;
+  try       { slotId = (await cSeats.currentSlotId()).toNumber(); }
+  catch (_) { slotId = (await cSeats.currentAuctionId()).toNumber(); }
 
-  const t = total.toNumber(), o = occupied.toNumber(), b = burned.toNumber();
-  document.getElementById('statTotal').textContent    = t;
-  document.getElementById('statOccupied').textContent = o;
-  document.getElementById('statBurned').textContent   = b;
-  document.getElementById('seatFill').style.width     = t > 0 ? (o / t * 100) + '%' : '0%';
-  buildSeatMap(t, o, b);
+  // Try getSlot, fall back to getAuction
+  let info;
+  try       { info = await cSeats.getSlot(slotId); }
+  catch (_) { info = await cSeats.getAuction(slotId); }
 
-  const id   = auctionId.toNumber();
-  const info = await cSeats.getAuction(id);
-  document.getElementById('statAid').textContent = '#' + id;
+  const endTime  = info.endTime.toNumber();
+  const bidCount = info.bidCount.toNumber();
+  const topBid   = info.highestBid;
+  const topBidder= info.highestBidder;
 
-  auctionEnd = info.endTime.toNumber();
-  document.getElementById('statBidders').textContent = info.participantCount.toString();
-  document.getElementById('statAStatus').textContent = info.active ? '🟢 Active' : '🔴 Ended';
-  document.getElementById('auctionEndLbl').textContent =
-    'Ends: ' + new Date(auctionEnd * 1000).toLocaleString();
+  slotEnd   = endTime;
+  slotStart = endTime - SLOT_WINDOW_SEC;
 
-  if (info.topBid.gt(0)) {
-    document.getElementById('statTopBid').textContent =
-      parseFloat(ethers.utils.formatEther(info.topBid)).toFixed(4) + ' ETH';
-    document.getElementById('statTopBidder').textContent = 'leader: ' + shortAddr(info.topBidder);
-  } else {
-    document.getElementById('statTopBid').textContent = '0 ETH';
-    document.getElementById('statTopBidder').textContent = 'no bids yet';
-  }
+  // Update slot hero
+  setEl('slotNum',        String(slotId).padStart(3,'0'));
+  setEl('bidSlotNum',     String(slotId).padStart(3,'0'));
+  setEl('bidSlotLabel',   String(slotId).padStart(3,'0'));
+  setEl('slotCloseTime',  new Date(endTime * 1000).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}));
+  setEl('slotBidCount',   String(bidCount));
 
+  const topBidEth = parseFloat(ethers.utils.formatEther(topBid));
+  setEl('slotTopBid',     '$' + (topBidEth * ETH_USD_APPROX).toFixed(2));
+  setEl('slotTopBidEth',  topBidEth.toFixed(4) + ' ETH');
+
+  updateWindowProgress();
   startCountdown();
 
-  // min bid
-  const minB = await cSeats.minBidIncrement()
-    .catch(() => cSeats.minBid().catch(() => ethers.BigNumber.from(0)));
-  document.getElementById('minBidLabel').textContent =
-    'Min bid: ' + parseFloat(ethers.utils.formatEther(minB)).toFixed(4) + ' ETH';
+  // Council totals
+  const [total, occ, burned] = await Promise.all([
+    cSeats.totalSeats(),
+    cSeats.seatsOccupied(),
+    cSeats.seatsBurned().catch(() => ethers.BigNumber.from(0)),
+  ]);
+  const t = total.toNumber(), o = occ.toNumber(), b = burned.toNumber();
+  setEl('statTotal',    t);
+  setEl('statOccupied', o);
+  setEl('statBurned',   b);
+  setEl('statFree',     t - o);
+  setEl('statSlotsDone', slotId - 1);
+  const pct = t > 0 ? (o / t * 100).toFixed(1) : '0.0';
+  setEl('statFillRate', pct + '%');
+  document.getElementById('seatFill').style.width = pct + '%';
+  buildSeatMap(t, o, b);
+
+  // Min bid
+  const minB = await cSeats.minBid().catch(() => cSeats.minBidIncrement().catch(() => ethers.BigNumber.from(0)));
+  setEl('minBidLabel', 'Min bid: ' + fmtEth4(minB) + ' ETH');
+
+  await loadBids(slotId);
 }
 
-async function loadBids() {
+async function loadBids(slotIdArg) {
   if (!cSeats) return;
-  const id = await cSeats.currentAuctionId();
-  const { bidders, amounts } = await cSeats.getBids(id.toNumber());
-  renderBids(bidders, amounts.map(a => ethers.utils.formatEther(a)));
+  let slotId = slotIdArg;
+  if (slotId === undefined) {
+    try       { slotId = (await cSeats.currentSlotId()).toNumber(); }
+    catch (_) { slotId = (await cSeats.currentAuctionId()).toNumber(); }
+  }
+  try {
+    const { bidders, amounts } = await cSeats.getBids(slotId);
+    renderBids(bidders, amounts.map(a => ethers.utils.formatEther(a)));
+  } catch (err) {
+    console.warn('getBids failed:', err);
+  }
 }
 
 async function loadMyStatus() {
   if (!userAddress || !cRegistry || !cSeats) return;
   const [isReg, hasSeat] = await Promise.all([
-    cRegistry.isRegistered(userAddress).catch(() => false),
-    cSeats.hasSeat(userAddress).catch(() => false),
+    cRegistry.isRegistered(userAddress).catch(()=>false),
+    cSeats.hasSeat(userAddress).catch(()=>false),
   ]);
-  const div = document.getElementById('myStatus');
   const parts = [];
-  if (isReg)   parts.push('<span style="color:var(--green);font-weight:700">✅ Registered member</span>');
-  else         parts.push('<span style="color:var(--muted)">Not registered</span>');
+  parts.push(isReg
+    ? '<span style="color:var(--green);font-weight:700">✅ Registered member</span>'
+    : '<span style="color:var(--muted)">Not registered yet</span>');
   if (hasSeat) {
-    const { seatId, expiry } = await cSeats.getSeatOf(userAddress).catch(() => ({seatId:{toString:()=>'?'}, expiry:{toNumber:()=>0}}));
-    const exp = new Date(expiry.toNumber() * 1000).toLocaleDateString();
-    parts.push(`<span style="color:var(--accent2);font-weight:700">🏛️ Seat #${seatId.toString()}</span>`);
-    parts.push(`<span style="font-size:11px;color:var(--muted)">Expires: ${exp}</span>`);
+    const { seatId, expiry } = await cSeats.getSeatOf(userAddress).catch(() => ({seatId:{toString:()=>'?'},expiry:{toNumber:()=>0}}));
+    parts.push(`<span style="color:var(--accent2);font-weight:700">🏛️ Seat #${seatId}</span>`);
+    parts.push(`<span style="font-size:11px;color:var(--muted)">Expires: ${new Date(expiry.toNumber()*1000).toLocaleDateString()}</span>`);
   } else {
-    parts.push('<span style="font-size:11px;color:var(--muted)">No council seat</span>');
+    parts.push('<span style="font-size:11px;color:var(--muted)">No council seat — bid to join</span>');
   }
-  div.innerHTML = parts.join('');
+  document.getElementById('myStatus').innerHTML = parts.join('');
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   WRITE FUNCTIONS
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   WRITE
+═══════════════════════════════════════════════════════ */
 async function sendHeartbeat() {
-  if (demo || !cRegistry) { toast('info','Demo mode','Connect with a live wallet to send heartbeat.'); return; }
+  if (demo || !cRegistry) { toast('info','Demo mode','Connect wallet to send heartbeat.'); return; }
   try {
     setBtnLoading('hbBtn', true);
     const fee = await cRegistry.heartbeatFee();
-    toast('pending', 'Awaiting wallet…', 'Confirm heartbeat transaction');
+    toast('pending','Awaiting wallet…','Confirm heartbeat transaction');
     const tx = await cRegistry.heartbeat({ value: fee });
-    toast('pending', 'Heartbeat submitted', txLink(tx.hash));
+    toast('pending','Submitted',txLink(tx.hash));
     await tx.wait();
-    toast('success', 'Heartbeat confirmed! 💓', 'Membership renewed');
-    pushEvent('heart', `💓 You sent a heartbeat`, 'just now');
-    await Promise.all([loadRegistryStats(), loadMyStatus()]);
+    toast('success','Heartbeat confirmed! 💓','Membership renewed');
+    pushEvent('hb','💓 You sent a heartbeat','just now');
+    await loadRegistry();
   } catch (err) {
-    toast('error', 'Heartbeat failed', err.reason || err.message);
-  } finally {
-    setBtnLoading('hbBtn', false);
-  }
+    toast('error','Heartbeat failed', err.reason || err.message);
+  } finally { setBtnLoading('hbBtn', false); }
 }
 
 async function placeBid() {
-  if (demo || !cSeats) { toast('info','Demo mode','Connect with a live wallet to place bids.'); return; }
+  if (demo || !cSeats) { toast('info','Demo mode','Connect wallet to place bids.'); return; }
   const raw = document.getElementById('bidAmt').value.trim();
-  if (!raw || isNaN(+raw) || +raw <= 0) { toast('error','Invalid amount','Enter an ETH value greater than 0.'); return; }
+  if (!raw || isNaN(+raw) || +raw <= 0) { toast('error','Invalid amount','Enter ETH amount > 0'); return; }
   try {
     setBtnLoading('bidBtn', true);
-    const id    = await cSeats.currentAuctionId();
+    let slotId;
+    try       { slotId = (await cSeats.currentSlotId()).toNumber(); }
+    catch (_) { slotId = (await cSeats.currentAuctionId()).toNumber(); }
+
     const value = ethers.utils.parseEther(raw);
-    toast('pending', 'Awaiting wallet…', `Bid ${raw} ETH on Auction #${id}`);
-    const tx = await cSeats.bid(id, { value });
-    toast('pending', 'Bid submitted', txLink(tx.hash));
+    toast('pending','Awaiting wallet…',`Bid ${raw} ETH on Slot #${String(slotId).padStart(3,'0')}`);
+
+    // try bid(slotId), fall back to bid()
+    let tx;
+    try       { tx = await cSeats['bid(uint256)'](slotId, { value }); }
+    catch (_) { tx = await cSeats['bid()']({ value }); }
+
+    toast('pending','Bid submitted', txLink(tx.hash));
     await tx.wait();
-    toast('success', 'Bid placed! 💰', `${raw} ETH on Auction #${id}`);
-    pushEvent('bid', `💰 You bid <strong>${raw} ETH</strong> on Auction #${id}`, 'just now');
+    toast('success','Bid placed! 💰',`${raw} ETH on Slot #${String(slotId).padStart(3,'0')}`);
+    pushEvent('bid', `💰 You bid <strong>${raw} ETH</strong> on Slot #${String(slotId).padStart(3,'0')}`, 'just now');
     document.getElementById('bidAmt').value = '';
-    await Promise.all([loadSeatsStats(), loadBids()]);
+    await loadSlotData();
   } catch (err) {
-    toast('error', 'Bid failed', err.reason || err.message);
-  } finally {
-    setBtnLoading('bidBtn', false);
-  }
+    toast('error','Bid failed', err.reason || err.message);
+  } finally { setBtnLoading('bidBtn', false); }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   EVENT SUBSCRIPTIONS
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   EVENTS
+═══════════════════════════════════════════════════════ */
 function subscribeEvents() {
   if (!cSeats || !cRegistry) return;
-
-  cSeats.on('NewBid', (bidder, auctionId, amount) => {
-    const eth = fmtEth(amount);
-    pushEvent('bid', `💰 <strong>${shortAddr(bidder)}</strong> bid <strong>${eth} ETH</strong> on Auction #${auctionId}`, 'live');
-    loadSeatsStats(); loadBids();
+  cSeats.on('NewBid', (bidder, slotId, amount) => {
+    pushEvent('bid',`💰 <strong>${shortAddr(bidder)}</strong> bid <strong>${fmtEth4(amount)} ETH</strong> on Slot #${String(Number(slotId)).padStart(3,'0')}`,'live');
+    loadSlotData();
   });
-  cSeats.on('AuctionStarted', (id, endTime, seats) => {
-    pushEvent('start', `🔔 Auction <strong>#${id}</strong> started — <strong>${seats}</strong> seat(s) up for grabs`, 'live');
-    loadSeatsStats();
+  cSeats.on('SlotStarted', (id, endTime) => {
+    pushEvent('info',`🔔 Slot <strong>#${String(Number(id)).padStart(3,'0')}</strong> opened`,'live');
+    loadSlotData();
   });
-  cSeats.on('SeatAwarded', (winner, seatId, auctionId) => {
-    pushEvent('seat', `🏆 <strong>${shortAddr(winner)}</strong> won Seat #${seatId} (Auction #${auctionId})`, 'live');
-    loadSeatsStats();
+  cSeats.on('AuctionStarted', (id, endTime) => {
+    pushEvent('info',`🔔 Slot <strong>#${String(Number(id)).padStart(3,'0')}</strong> opened`,'live');
+    loadSlotData();
+  });
+  cSeats.on('SeatAwarded', (winner, seatId, slotId) => {
+    pushEvent('seat',`🏆 <strong>${shortAddr(winner)}</strong> won Seat #${seatId} (Slot #${String(Number(slotId)).padStart(3,'0')})`,'live');
+    loadSlotData();
   });
   cSeats.on('SeatBurned', (holder, seatId) => {
-    pushEvent('seat', `🔥 Seat #${seatId} of <strong>${shortAddr(holder)}</strong> burned`, 'live');
-    loadSeatsStats();
+    pushEvent('seat',`🔥 Seat #${seatId} of <strong>${shortAddr(holder)}</strong> burned`,'live');
+    loadSlotData();
   });
-  cRegistry.on('HeartbeatSent', (member) => {
-    pushEvent('heart', `💓 <strong>${shortAddr(member)}</strong> sent heartbeat`, 'live');
+  cRegistry.on('HeartbeatSent', member => {
+    pushEvent('hb',`💓 <strong>${shortAddr(member)}</strong> sent heartbeat`,'live');
   });
-  cRegistry.on('Registered', (member) => {
-    pushEvent('start', `🆕 <strong>${shortAddr(member)}</strong> registered`, 'live');
-    loadRegistryStats();
+  cRegistry.on('Registered', member => {
+    pushEvent('info',`🆕 <strong>${shortAddr(member)}</strong> registered`,'live');
+    loadRegistry();
   });
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   DEMO DATA
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   DEMO DATA  (matches real site: 23/180, slot #032)
+═══════════════════════════════════════════════════════ */
+// Approximate ETH/USD for display (fallback, not from oracle)
+const ETH_USD_APPROX = 1980;
+
 function loadDemoData() {
-  const total=21, occ=14, burned=2;
-  document.getElementById('statTotal').textContent    = total;
-  document.getElementById('statOccupied').textContent = occ;
-  document.getElementById('statBurned').textContent   = burned;
-  document.getElementById('seatFill').style.width     = (occ/total*100)+'%';
-  document.getElementById('statAid').textContent      = '#7';
-  document.getElementById('statAStatus').textContent  = '🟢 Active (demo)';
-  document.getElementById('statBidders').textContent  = '5';
-  document.getElementById('statTopBid').textContent   = '0.4200 ETH';
-  document.getElementById('statTopBidder').textContent= 'leader: 0x1a2b…3c4d';
-  document.getElementById('hbFeeLabel').textContent   = 'Fee: 0.0010 ETH';
-  document.getElementById('hbLastLabel').textContent  = 'Last heartbeat: demo mode';
-  document.getElementById('minBidLabel').textContent  = 'Min bid: 0.0100 ETH';
-  document.getElementById('statMembers').textContent  = '47';
-  document.getElementById('treasuryBal').textContent  = '3.4200 ETH';
-  document.getElementById('auctionEndLbl').textContent= 'Demo — connect wallet for live data';
-  auctionEnd = Math.floor(Date.now()/1000) + 3*3600 + 27*60 + 14;
+  const total=180, occ=23, burned=3, slotId=32;
+  // Slot hero
+  setEl('slotNum',    '032');
+  setEl('bidSlotNum', '032');
+  setEl('bidSlotLabel','032');
+  setEl('slotBidCount','0');
+  setEl('slotTopBid',  '$0.00');
+  setEl('slotTopBidEth','0.00 ETH');
+  setEl('slotCloseTime','Mar 13, 2026, 7:59 PM');
+
+  // Window: slot #032 opened at ~13:59, closes at 19:59
+  // Right now it's ~17:14 → ~2h 45m left → window is ~71% elapsed
+  slotEnd   = Math.floor(new Date('2026-03-13T19:59:00').getTime()/1000);
+  slotStart = slotEnd - SLOT_WINDOW_SEC;
   startCountdown();
+  updateWindowProgress();
+
+  // Council stats
+  setEl('statTotal',    total);
+  setEl('statOccupied', occ);
+  setEl('statBurned',   burned);
+  setEl('statFree',     total - occ);
+  setEl('statSlotsDone', slotId - 1);
+  const pct = (occ / total * 100).toFixed(1);
+  setEl('statFillRate', pct + '%');
+  document.getElementById('seatFill').style.width = pct + '%';
   buildSeatMap(total, occ, burned);
-  renderBids(
-    ['0x1a2b3c4d5e6f7a8b9c0d','0xabcdef1234567890abcd','0x9999888877776666aaaa','0xdeadbeef01020304dead','0xfeedface0a0b0c0d0e0f'],
-    ['0.4200','0.3800','0.2500','0.1500','0.0500']
-  );
+
+  // Treasury/members
+  setEl('treasuryBal',  '0.0000 ETH');
+  setEl('statMembers',  '—');
+
+  // Actions
+  setEl('hbFeeLabel',  'Fee: — ETH');
+  setEl('hbLastLabel', 'Last heartbeat: —');
+  setEl('minBidLabel', 'Min bid: — ETH');
+
+  // Bids (slot 032 has 0 bids per site data)
+  document.getElementById('bidsList').innerHTML =
+    '<li class="list-empty">No bids yet on Slot #032 — be the first!</li>';
+
+  // Events
   if (evLog.length === 0) {
-    pushEvent('start', '🔔 Auction <strong>#7</strong> started — 1 seat', '2h ago');
-    pushEvent('bid',   '💰 <strong>0x1a2b…3c4d</strong> bid <strong>0.42 ETH</strong>', '1h ago');
-    pushEvent('heart', '💓 <strong>0xabcd…ef12</strong> sent heartbeat', '45m ago');
-    pushEvent('bid',   '💰 <strong>0xabcd…ef12</strong> bid <strong>0.38 ETH</strong>', '30m ago');
-    pushEvent('seat',  '🏆 <strong>0xfeed…face</strong> won Seat #13 (Auction #6)', '6h ago');
+    pushEvent('info', '🔔 Slot <strong>#032</strong> opened — window 13:59–19:59', '3h ago');
+    pushEvent('seat', '🏆 <strong>0xabcd…ef12</strong> won Seat #23 (Slot #031)', '10h ago');
+    pushEvent('bid',  '💰 <strong>0x1a2b…3c4d</strong> bid <strong>0.38 ETH</strong> (Slot #031)', '10h ago');
+    pushEvent('hb',   '💓 <strong>0x9999…6666</strong> sent heartbeat', '1h ago');
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    RENDERING
-═══════════════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function renderBids(bidders, amounts) {
   const list = document.getElementById('bidsList');
-  const pairs = bidders.map((b,i) => ({b, a:parseFloat(amounts[i])})).sort((x,y)=>y.a-x.a);
+  const pairs = bidders.map((b,i)=>({b,a:parseFloat(amounts[i])})).sort((x,y)=>y.a-x.a);
   list.innerHTML = '';
-  if (!pairs.length) { list.innerHTML='<li class="list-empty">No bids yet — be first!</li>'; return; }
+  if (!pairs.length) { list.innerHTML = '<li class="list-empty">No bids yet — be first!</li>'; return; }
   pairs.forEach(({b,a},i) => {
-    const rc = ['r1','r2','r3'][i] || 'rn';
+    const rc = ['r1','r2','r3'][i]||'rn';
     const isMe = userAddress && b.toLowerCase()===userAddress.toLowerCase();
     const li = document.createElement('li');
     li.className = 'bid-row';
     li.innerHTML = `
       <div class="bid-rank ${rc}">${i+1}</div>
       <div class="bid-addr" title="${b}">${shortAddr(b)}</div>
-      ${isMe ? '<span class="bid-you">YOU</span>' : ''}
+      ${isMe?'<span class="bid-you">YOU</span>':''}
       <div class="bid-amount">${a.toFixed(4)} ETH</div>
     `;
     list.appendChild(li);
@@ -986,68 +983,74 @@ function renderBids(bidders, amounts) {
 function buildSeatMap(total, occupied, burned) {
   const grid = document.getElementById('seatsGrid');
   grid.innerHTML = '';
-  for (let i=1;i<=total;i++) {
+  for (let i=1; i<=total; i++) {
     const d = document.createElement('div');
     d.className = 'seat-dot';
     d.textContent = i;
-    if (i <= burned)         { d.classList.add('seat-burned');   d.title = `Seat #${i} — Burned`; }
-    else if (i <= occupied)  { d.classList.add('seat-occupied'); d.title = `Seat #${i} — Occupied`; }
-    else                     { d.classList.add('seat-free');     d.title = `Seat #${i} — Available`; }
+    if (i <= burned)        { d.classList.add('seat-burned');   d.title = `Seat #${i} — Burned`; }
+    else if (i <= occupied) { d.classList.add('seat-occupied'); d.title = `Seat #${i} — Occupied`; }
+    else                    { d.classList.add('seat-free');     d.title = `Seat #${i} — Available`; }
     grid.appendChild(d);
   }
 }
 
 function pushEvent(type, html, time) {
-  const iconMap = {bid:'💰',heart:'💓',seat:'🏆',start:'🔔'};
-  const clsMap  = {bid:'ei-bid',heart:'ei-heart',seat:'ei-seat',start:'ei-start'};
+  const ic = {bid:'💰',hb:'💓',seat:'🏆',info:'🔔'};
+  const cs = {bid:'ei-bid',hb:'ei-hb',seat:'ei-seat',info:'ei-info'};
   evLog.unshift({type,html,time});
-  if (evLog.length > 50) evLog.pop();
-  document.getElementById('evCount').textContent = evLog.length + ' events';
-
+  if (evLog.length>50) evLog.pop();
+  setEl('evCount', evLog.length + ' events');
   const list = document.getElementById('evList');
-  const firstChild = list.querySelector('.list-empty');
-  if (firstChild) list.innerHTML = '';
-
+  const empty = list.querySelector('.list-empty');
+  if (empty) list.innerHTML = '';
   const li = document.createElement('li');
   li.className = 'ev-row';
   li.innerHTML = `
-    <div class="ev-icon ${clsMap[type]||'ei-start'}">${iconMap[type]||'📌'}</div>
-    <div class="ev-body">
-      <div class="ev-text">${html}</div>
-      <div class="ev-time">${time}</div>
-    </div>
+    <div class="ev-icon ${cs[type]||'ei-info'}">${ic[type]||'📌'}</div>
+    <div class="ev-body"><div class="ev-text">${html}</div><div class="ev-time">${time}</div></div>
   `;
   list.insertBefore(li, list.firstChild);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   COUNTDOWN
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   COUNTDOWN + WINDOW PROGRESS
+═══════════════════════════════════════════════════════ */
 function startCountdown() {
   if (cdTimer) clearInterval(cdTimer);
-  tick(); cdTimer = setInterval(tick, 1000);
-}
-function tick() {
-  const diff = auctionEnd - Math.floor(Date.now()/1000);
-  if (diff <= 0) { set('cdH','00'); set('cdM','00'); set('cdS','00'); return; }
-  set('cdH', String(Math.floor(diff/3600)).padStart(2,'0'));
-  set('cdM', String(Math.floor((diff%3600)/60)).padStart(2,'0'));
-  set('cdS', String(diff%60).padStart(2,'0'));
+  tickCountdown();
+  cdTimer = setInterval(() => { tickCountdown(); updateWindowProgress(); }, 1000);
 }
 
-/* ═══════════════════════════════════════════════════════════════
+function tickCountdown() {
+  const diff = slotEnd - Math.floor(Date.now()/1000);
+  if (diff <= 0) { setEl('cdH','00'); setEl('cdM','00'); setEl('cdS','00'); return; }
+  setEl('cdH', String(Math.floor(diff/3600)).padStart(2,'0'));
+  setEl('cdM', String(Math.floor((diff%3600)/60)).padStart(2,'0'));
+  setEl('cdS', String(diff%60).padStart(2,'0'));
+}
+
+function updateWindowProgress() {
+  if (!slotEnd || !slotStart) return;
+  const now     = Math.floor(Date.now()/1000);
+  const elapsed = now - slotStart;
+  const total   = SLOT_WINDOW_SEC;
+  const pct     = Math.min(100, Math.max(0, (elapsed / total * 100)));
+  document.getElementById('windowFill').style.width = pct.toFixed(1) + '%';
+  setEl('windowPct', pct.toFixed(0) + '% elapsed');
+}
+
+/* ═══════════════════════════════════════════════════════
    REFRESH BAR
-═══════════════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function resetRfill() {
   const f = document.getElementById('rfill');
-  f.style.animation = 'none';
-  void f.offsetWidth;
+  f.style.animation = 'none'; void f.offsetWidth;
   f.style.animation = 'refill 30s linear infinite';
 }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    TOAST
-═══════════════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function toast(type, title, msg, dur=6000) {
   const icons = {success:'✅',error:'❌',pending:'⏳',info:'ℹ️'};
   const id = ++toastCtr;
@@ -1055,45 +1058,42 @@ function toast(type, title, msg, dur=6000) {
   el.className = `toast ${type}`; el.id = 'toast-'+id;
   el.innerHTML = `
     <div class="toast-icon">${icons[type]||'📌'}</div>
-    <div class="toast-body">
-      <div class="toast-title">${esc(title)}</div>
-      <div class="toast-msg">${msg}</div>
-    </div>
+    <div class="toast-body"><div class="toast-title">${esc(title)}</div><div class="toast-msg">${msg}</div></div>
     <div class="toast-x" onclick="rmToast(${id})">×</div>
   `;
   document.getElementById('toastWrap').appendChild(el);
   if (dur>0) setTimeout(()=>rmToast(id), dur);
 }
-function rmToast(id) { const e=document.getElementById('toast-'+id); if(e) e.remove(); }
+function rmToast(id) { const e=document.getElementById('toast-'+id); if(e)e.remove(); }
 
-/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    UTILS
-═══════════════════════════════════════════════════════════════ */
-function shortAddr(a) { if(!a||a.length<10) return a||'—'; return a.slice(0,6)+'…'+a.slice(-4); }
-function fmtEth(bn)   { return parseFloat(ethers.utils.formatEther(bn)).toFixed(4); }
+═══════════════════════════════════════════════════════ */
+function shortAddr(a) { return !a||a.length<10 ? (a||'—') : a.slice(0,6)+'…'+a.slice(-4); }
+function fmtEth4(bn)  { return parseFloat(ethers.utils.formatEther(bn)).toFixed(4); }
 function txLink(h)    { return `<a class="tx-link" href="${CHAIN.explorer}/tx/${h}" target="_blank">${h.slice(0,10)}…${h.slice(-6)}</a>`; }
 function esc(s)       { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function set(id,v)    { const e=document.getElementById(id); if(e) e.textContent=v; }
+function setEl(id,v)  { const e=document.getElementById(id); if(e) e.textContent=v; }
 
 function setBtnLoading(id, on) {
-  const b = document.getElementById(id);
-  if (!b) return;
+  const b = document.getElementById(id); if(!b) return;
   b.disabled = on;
-  if (on)  { b._t = b.innerHTML; b.innerHTML = '<div class="spinner"></div> Processing…'; }
+  if (on)  { b._t=b.innerHTML; b.innerHTML='<div class="spinner"></div> Processing…'; }
   else if (b._t) b.innerHTML = b._t;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   WALLET EVENT LISTENERS
-═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   ACCOUNT/CHAIN CHANGE
+═══════════════════════════════════════════════════════ */
 if (window.ethereum) {
   window.ethereum.on('accountsChanged', a => {
-    if (!a.length) { set('connectBtn',''); document.getElementById('connectBtn').style.display='';
-                     document.getElementById('walletPill').style.display='none';
-                     userAddress=null; signer=null; cRegistry=null; cSeats=null; }
-    else           { window.location.reload(); }
+    if (!a.length) {
+      document.getElementById('connectBtn').style.display = '';
+      document.getElementById('walletPill').style.display = 'none';
+      userAddress=null; signer=null; cRegistry=null; cSeats=null;
+    } else { window.location.reload(); }
   });
-  window.ethereum.on('chainChanged', () => window.location.reload());
+  window.ethereum.on('chainChanged', ()=>window.location.reload());
 }
 </script>
 </body>
